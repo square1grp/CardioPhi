@@ -3,9 +3,13 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext([{}, () => null]);
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const signIn = () => {};
+  const signUp = (data) => {
+    console.log("data: ", data);
+  };
+
+  const signIn = ({ username, passowrd }) => {};
 
   const signOut = () => {};
 
@@ -13,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isLoggedIn,
+        signUp,
         signIn,
         signOut,
       }}
