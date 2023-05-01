@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { ROUTE } from "utils";
 import { FormControl } from "components";
 import _ from "lodash";
+import { useAuth } from "providers";
 
 const schema = yup
   .object({
@@ -21,11 +22,16 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { isSubmitted, errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: "john@doe.com",
+      password: "Abcdef1@#",
+    },
+  });
 
-  const onSubmit = (data) => {};
+  const { signIn: onSubmit } = useAuth();
 
   return (
     <Container fluid>
