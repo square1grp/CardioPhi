@@ -45,7 +45,7 @@ const SignUp = () => {
       password: "Abcdef1@#",
     },
   });
-  const { signUp: onSubmit } = useAuth();
+  const { isLoading, signUp: onSubmit } = useAuth();
 
   return (
     <Container fluid>
@@ -99,7 +99,12 @@ const SignUp = () => {
             </Form.Group>
 
             <Form.Group>
-              <Button className="w-100" variant="primary" type="submit">
+              <Button
+                className="w-100"
+                variant="primary"
+                type="submit"
+                disabled={isLoading}
+              >
                 Sign Up
               </Button>
 

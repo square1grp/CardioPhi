@@ -58,6 +58,8 @@ export const cognitoUserSignIn = (email, password) =>
     }
   });
 
+export const cognitoUserSignOut = () => userPool.getCurrentUser()?.signOut();
+
 export const getCurrentUser = () =>
   new Promise((resolve, reject) => {
     try {
