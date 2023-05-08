@@ -1,1 +1,78 @@
 @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/variables";
+
+// Override Bootstrap variables
+$secondary: rgba(0, 0, 0, 0.54);
+$tab-active-color: white;
+
+.nav-tabs {
+  border-bottom: none;
+
+  .nav-link {
+    color: $secondary;
+    background-color: rgba(240, 240, 240, 1);
+    border-radius: 0;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    &:hover {
+      background-color: rgba(220, 220, 220, 1);
+    }
+  }
+
+  .nav-item.show .nav-link,
+  .nav-link.active {
+    color: black;
+    border-bottom: solid 3px;
+    border-bottom-color: black;
+
+    &:hover {
+      background-color: rgba(200, 200, 200, 1);
+    }
+  }
+}
+
+.grid {
+  .time-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: 0.0125em;
+    display: flex;
+    justify-content: center;
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 1rem;
+  }
+
+  .time-first {
+    align-self: center;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .time-second {
+    align-self: center;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1rem;
+    width: 50%;
+  }
+
+  .time-third {
+    align-self: center;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    width: 50%;
+  }
+
+  .time-normal {
+    display: flex;
+    border-right: solid 1px;
+    border-color: white;
+    justify-content: center;
+    line-height: 1.5;
+  }
+}
