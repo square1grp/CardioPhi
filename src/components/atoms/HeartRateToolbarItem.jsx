@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
-import { HiChevronRight } from "react-icons/hi";
 
 const Item = ({ title = "", value = "", checked, onChange }) => {
   const [isChecked, setChecked] = useState(checked);
@@ -48,24 +47,6 @@ const Item = ({ title = "", value = "", checked, onChange }) => {
         <div className="ml-auto p-2">
           <FaChevronRight />
         </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className={"flex flex-row items-start"}>
-      <input
-        type="checkbox"
-        checked={isChecked}
-        onChange={handleChange}
-        className="mr-2 w-[15px] h-[15px]"
-      />
-      <div className="basis-4/5 items-start">
-        <div className="text-xs font-bold text-[rgba(0,0,0,0.87)]">{title}</div>
-        <div className=" text-[10px] text-[rgba(0,0,0,0.6)]">{value}</div>
-      </div>
-      <div className="basis-1/5 items-center justify-center">
-        <HiChevronRight className={"flex text-base"} />
       </div>
     </div>
   );
