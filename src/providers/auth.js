@@ -59,7 +59,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signOut = () => cognitoUserSignOut();
+  const signOut = () => {
+    cognitoUserSignOut();
+    setCurrentUser(null);
+  }
 
   return (
     <AuthContext.Provider

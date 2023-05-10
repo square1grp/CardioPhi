@@ -1,0 +1,137 @@
+/* This example requires Tailwind CSS v2.0+ */
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import clsx from "clsx";
+import {
+  FaUserCircle,
+  FaCog,
+  FaVideo,
+  FaAngleDoubleRight,
+} from "react-icons/fa";
+import { useAuth } from "providers";
+import { Link } from "react-router-dom";
+import { ROUTE } from "utils";
+
+export const Header = () => {
+  const { signOut } = useAuth();
+
+  const BreadCrumb = () => {
+    return (
+      <>
+        <Link to={ROUTE.INDEX}>
+          <span>Main</span>
+        </Link>
+
+        <span className="mx-2">
+          <FaAngleDoubleRight />
+        </span>
+
+        <Link to={ROUTE.INDEX}>
+          <span className="font-bold">ECG Analysis</span>
+        </Link>
+
+        <span className="mx-2">
+          <FaAngleDoubleRight />
+        </span>
+
+        <Link to={ROUTE.INDEX}>
+          <span>Report Generation</span>
+        </Link>
+      </>
+    );
+  };
+
+  return (
+    <nav className="bg-white shadow">
+      <div className="w-full mx-auto p-2">
+        <div className="flex justify-between h-12">
+          <div className="flex items-center">
+            <Link to={ROUTE.INDEX} className="inline-flex items-center mr-2">
+              <img
+                className="block h-8 w-auto"
+                src="/assets/images/CardioPhi-logos_colored.png"
+                alt="CardioPhi"
+              />
+            </Link>
+
+            <BreadCrumb />
+          </div>
+
+          <div className="flex items-center">
+            <button
+              type="button"
+              className="h-8 relative inline-flex items-center px-3 shadow-sm text-sm font-medium text-white bg-[#066A94] hover:opacity-70 focus:outline-none mr-4"
+            >
+              <span>Report Generator</span>
+            </button>
+
+            <button
+              type="button"
+              className="relative inline-flex items-center font-medium text-[#066A94] hover:opacity-70 focus:outline-none mr-4"
+            >
+              <FaVideo className="h-8 w-8" />
+            </button>
+
+            <Menu as="div" className="mr-2 relative">
+              <div>
+                <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none">
+                  <span className="sr-only">Open user menu</span>
+
+                  <FaUserCircle className="h-6 w-6 rounded-full" />
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={clsx(
+                          active ? "bg-gray-100" : "",
+                          "w-full block px-4 py-2 text-sm text-gray-700 text-left"
+                        )}
+                        onClick={signOut}
+                      >
+                        Sign out
+                      </button>
+                    )}
+                  </Menu.Item>
+                </Menu.Items>
+              </Transition>
+            </Menu>
+
+            <Menu as="div" className="relative">
+              <div>
+                <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none">
+                  <span className="sr-only">Open user menu</span>
+
+                  <FaCog className="h-6 w-6 rounded-full" />
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Item>{({ active }) => <></>}</Menu.Item>
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};

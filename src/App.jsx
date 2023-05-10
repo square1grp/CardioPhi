@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./providers";
 import { AuthRoutes, NonAuthRoutes } from "components";
-import { SignIn, SignUp } from "./pages";
+import { SignIn, SignUp, ECGAnalysis } from "./pages";
 import { ROUTE } from "utils";
 import "assets/scss/styles.scss";
 
@@ -12,7 +12,11 @@ const App = () => {
       <AuthProvider>
         <Routes>
           <Route path={ROUTE.INDEX} element={<AuthRoutes />}>
-            <Route index element={<Navigate to={ROUTE.HOME} replace />} />
+            <Route
+              index
+              element={<Navigate to={ROUTE.ECG_ANALYSIS} replace />}
+            />
+            <Route path={ROUTE.ECG_ANALYSIS} element={<ECGAnalysis />} />
           </Route>
 
           <Route path={ROUTE.INDEX} element={<NonAuthRoutes />}>
