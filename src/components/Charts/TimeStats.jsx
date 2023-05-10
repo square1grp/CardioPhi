@@ -81,19 +81,19 @@ const TimeStats = () => {
             <th className="text-left w-[216px]">
               <span className="text-lg font-bold"></span>
             </th>
-            <th className="text-left w-[300px]">
+            <th className="text-left w-[250px]">
               <span className="pl-8 text-lg font-bold">Mornng</span>
             </th>
             <th />
-            <th className="text-center w-[300px]">
+            <th className="text-center w-[250px]">
               <span className="text-lg font-bold">Afternoon</span>
             </th>
             <th />
-            <th className="text-center w-[300px]">
+            <th className="text-center w-[250px]">
               <span className="text-lg font-bold">Evening</span>
             </th>
             <th />
-            <th className="text-center w-[300px]">
+            <th className="text-center w-[250px]">
               <span className="text-lg font-bold">Overnight</span>
             </th>
           </tr>
