@@ -74,7 +74,7 @@ const SignUp = () => {
                   <input
                     type="text"
                     autoComplete="given-name"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-0 focus:ring-offset-0 focus:border-[#066A94] block w-full sm:text-sm border-gray-300"
                     {...register("firstName")}
                   />
                 </div>
@@ -99,7 +99,7 @@ const SignUp = () => {
                   <input
                     type="text"
                     autoComplete="family-name"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-0 focus:ring-offset-0 focus:border-[#066A94] block w-full sm:text-sm border-gray-300"
                     {...register("lastName")}
                   />
                 </div>
@@ -125,7 +125,7 @@ const SignUp = () => {
                 <input
                   autoComplete="email"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 shadow-sm placeholder-gray-400 focus:outline-none focus:border-[#066A94] sm:text-sm"
                   {...register("email")}
                 />
               </div>
@@ -150,7 +150,7 @@ const SignUp = () => {
                 <input
                   autoComplete="current-password"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 shadow-sm placeholder-gray-400 focus:outline-none focus:border-[#066A94] sm:text-sm"
                   {...register("password")}
                 />
               </div>
@@ -167,7 +167,7 @@ const SignUp = () => {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-[#066A94] hover:opacity-75 focus:outline-none focus:ring-0 focus:ring-offset-0"
                 disabled={isLoading}
               >
                 Sign up
@@ -187,7 +187,7 @@ const SignUp = () => {
 
             <div className="mt-6">
               <Link to={ROUTE.AUTH_SIGN_IN}>
-                <button className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button className="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-[#066A94] hover:opacity-75 focus:outline-none focus:ring-0 focus:ring-offset-0">
                   Sign in
                 </button>
               </Link>
