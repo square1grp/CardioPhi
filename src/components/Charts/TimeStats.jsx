@@ -1,261 +1,218 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {Tab, Tabs} from 'react-bootstrap';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FaRegBell } from "react-icons/fa";
+import { TbAdjustments } from "react-icons/tb";
 
-import { FaRegBell } from 'react-icons/fa';
-import { TbAdjustments } from 'react-icons/tb';
-
-import TcNotification from './TcNotification';
-import { updateShowTcNotification } from 'store/ecgSlice';
+import TcNotification from "./TcNotification";
+import { updateShowTcNotification } from "store/ecgSlice";
+import clsx from "clsx";
 
 /**
  * Time Stats Component
  * @returns
  */
 const TimeStats = () => {
-
+  const [currentTab, setCurrentTab] = useState("today");
   const dispatch = useDispatch();
 
-  const { predictionWidget, showTcNotification } = useSelector((state) => state.ecg);
+  const { predictionWidget, showTcNotification } = useSelector(
+    (state) => state.ecg
+  );
+
+  const Spacer = (props) => {
+    const { first, last } = {
+      first: false,
+      last: false,
+      ...props,
+    };
+
+    return (
+      <div
+        className={clsx(
+          "absolute w-[0px] left-[50%] border border-[#CECACA]",
+          first || last ? "h-[50%]" : "h-full",
+          first ? "top-[50%]" : "top-0"
+        )}
+      />
+    );
+  };
 
   return (
-    <div className={'w-full h-[250px] p-2 bg-mainPrimary px-4 timestats mt-1'}>
-      <div className='relative'>
-        <Tabs defaultActiveKey="today" transition={true} className="mb-1">
-          <Tab eventKey="today" title="Today">
-            <div className='grid grid-cols-6 text-white'>
-              <div></div>
-              <div className="time-title">Morning</div>
-              <div className="time-title">Afternoon</div>
-              <div className="time-title">Evening</div>
-              <div className="time-title">Overnight</div>
-              <div></div>
+    <div className={"w-full p-2 bg-mainPrimary px-4 timestats mt-1"}>
+      <div className="relative flex items-center mb-3">
+        <nav
+          className="relative rounded-xs flex items-center divide-x divide-[#BDB9B9]"
+          aria-label="Tabs"
+        >
+          {["today", "hourly", "daily"].map((tab, tabIdx) => (
+            <button
+              key={tab}
+              className={clsx(
+                tab === currentTab ? "font-bold" : "",
+                "group relative w-[108px] flex-1 bg-[#F0F2F4] text-center p-1"
+              )}
+              onClick={() => setCurrentTab(tab)}
+            >
+              <span className="capitalize">{tab}</span>
+            </button>
+          ))}
+        </nav>
 
-              <div className="time-first">AFib/Flutter</div>
-              <div className="flex-1 border-r-[1px] border-white">
-                <div className='flex'>
-                  <div className="time-second">Burden:</div>
-                  <div className="time-third">59.62%</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second">Longest Duration:</div>
-                  <div className="time-third">1 d 20 h</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Max HR:</div>
-                  <div className="time-third pb-3">154 bpm</div>
-                </div>
-              </div>
-              <div className="time-normal">60%</div>
-              <div className="time-normal">38%</div>
-              <div className="time-normal border-0">35%</div>
-              <div></div>
+        <div className="flex items-center ml-auto">
+          <button
+            className="text-white mr-1"
+            onClick={() => dispatch(updateShowTcNotification())}
+          >
+            <FaRegBell className="w-6 h-6" />
+          </button>
 
-              <div className="time-first">VT</div>
-              <div className="flex-1 border-r-[1px] border-white">
-                <div className='flex'>
-                  <div className="time-second">Episodes:</div>
-                  <div className="time-third">5</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Longest Episode:</div>
-                  <div className="time-third pb-3">57s</div>
-                </div>
-              </div>
-              <div className="time-normal">35%</div>
-              <div className="time-normal">71%</div>
-              <div className="time-normal border-0">42%</div>
-              <div></div>
-
-              <div className="time-first">SVT</div>
-              <div className="flex-1 border-r-[1px] border-white">
-                <div className='flex'>
-                  <div className="time-second">Episodes:</div>
-                  <div className="time-third">5</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Longest Episode:</div>
-                  <div className="time-third pb-3">57s</div>
-                </div>
-              </div>
-              <div className="time-normal">37%</div>
-              <div className="time-normal">38%</div>
-              <div className="time-normal border-0">67%</div>
-              <div></div>
-            </div>
-          </Tab>
-          <Tab eventKey="hourly" title="Hourly">
-            <div className='grid grid-cols-12 text-white'>
-              <div></div>
-              <div className="time-title">10AM</div>
-              <div></div>
-              <div className="time-title">11AM</div>
-              <div className="time-title">12PM</div>
-              <div className="time-title">1PM</div>
-              <div className="time-title">2PM</div>
-              <div className="time-title">3PM</div>
-              <div className="time-title">4PM</div>
-              <div className="time-title">5PM</div>
-              <div className="time-title">6PM</div>
-              <div className="time-title">7PM</div>
-
-              <div className="time-first">AFib/Flutter</div>
-              <div className="flex-1 border-r-[1px] border-white col-span-2">
-                <div className='flex'>
-                  <div className="time-second">Burden:</div>
-                  <div className="time-third">59.62%</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second">Longest Duration:</div>
-                  <div className="time-third">1 d 20 h</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Max HR:</div>
-                  <div className="time-third pb-3">154 bpm</div>
-                </div>
-              </div>
-              <div className="time-normal">37%</div>
-              <div className="time-normal">34%</div>
-              <div className="time-normal">27%</div>
-              <div className="time-normal">33%</div>
-              <div className="time-normal">35%</div>
-              <div className="time-normal">28%</div>
-              <div className="time-normal">39%</div>
-              <div className="time-normal">37%</div>
-              <div className="time-normal border-0">39%</div>
-
-              <div className="time-first">VT</div>
-              <div className="flex-1 border-r-[1px] border-white col-span-2">
-                <div className='flex'>
-                  <div className="time-second">Episodes:</div>
-                  <div className="time-third">5</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Longest Episode:</div>
-                  <div className="time-third pb-3">57s</div>
-                </div>
-              </div>
-              <div className="time-normal">33%</div>
-              <div className="time-normal">36%</div>
-              <div className="time-normal">48%</div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">34%</div>
-              <div className="time-normal">41%</div>
-              <div className="time-normal">20%</div>
-              <div className="time-normal">30%</div>
-              <div className="time-normal border-0">35%</div>
-
-              <div className="time-first">SVT</div>
-              <div className="flex-1 border-r-[1px] border-white col-span-2">
-                <div className='flex'>
-                  <div className="time-second">Episodes:</div>
-                  <div className="time-third">5</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Longest Episode:</div>
-                  <div className="time-third pb-3">57s</div>
-                </div>
-              </div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">30%</div>
-              <div className="time-normal">25%</div>
-              <div className="time-normal">35%</div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">41%</div>
-              <div className="time-normal">33%</div>
-              <div className="time-normal border-0">26%</div>
-            </div>
-          </Tab>
-          <Tab eventKey="daily" title="Daily">
-          <div className='grid grid-cols-12 text-white'>
-              <div></div>
-              <div className="time-title">Mon</div>
-              <div></div>
-              <div className="time-title">Tues</div>
-              <div className="time-title">Weds</div>
-              <div className="time-title">Thurs</div>
-              <div className="time-title">Fri</div>
-              <div className="time-title">Sat</div>
-              <div className="time-title">Sun</div>
-              <div className="time-title">Mon</div>
-              <div className="time-title">Tues</div>
-              <div className="time-title border-0">Weds</div>
-
-              <div className="time-first">AFib/Flutter</div>
-              <div className="flex-1 border-r-[1px] border-white col-span-2">
-                <div className='flex'>
-                  <div className="time-second">Burden:</div>
-                  <div className="time-third">59.62%</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second">Longest Duration:</div>
-                  <div className="time-third">1 d 20 h</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Max HR:</div>
-                  <div className="time-third pb-3">154 bpm</div>
-                </div>
-              </div>
-              <div className="time-normal">37%</div>
-              <div className="time-normal">34%</div>
-              <div className="time-normal">27%</div>
-              <div className="time-normal">33%</div>
-              <div className="time-normal">35%</div>
-              <div className="time-normal">28%</div>
-              <div className="time-normal">39%</div>
-              <div className="time-normal">37%</div>
-              <div className="time-normal border-0">39%</div>
-
-              <div className="time-first">VT</div>
-              <div className="flex-1 border-r-[1px] border-white col-span-2">
-                <div className='flex'>
-                  <div className="time-second">Episodes:</div>
-                  <div className="time-third">5</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Longest Episode:</div>
-                  <div className="time-third pb-3">57s</div>
-                </div>
-              </div>
-              <div className="time-normal">33%</div>
-              <div className="time-normal">36%</div>
-              <div className="time-normal">48%</div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">34%</div>
-              <div className="time-normal">41%</div>
-              <div className="time-normal">20%</div>
-              <div className="time-normal">30%</div>
-              <div className="time-normal border-0">35%</div>
-
-              <div className="time-first">SVT</div>
-              <div className="flex-1 border-r-[1px] border-white col-span-2">
-                <div className='flex'>
-                  <div className="time-second">Episodes:</div>
-                  <div className="time-third">5</div>
-                </div>
-                <div className='flex'>
-                  <div className="time-second pb-3">Longest Episode:</div>
-                  <div className="time-third pb-3">57s</div>
-                </div>
-              </div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">30%</div>
-              <div className="time-normal">25%</div>
-              <div className="time-normal">35%</div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">31%</div>
-              <div className="time-normal">41%</div>
-              <div className="time-normal">33%</div>
-              <div className="time-normal border-0">26%</div>
-            </div>
-          </Tab>
-        </Tabs>
-        <div className={'absolute right-0 top-0 flex items-center cursor-pointer'}>
-          <FaRegBell className={'text-xl font-bold text-white hover:text-black mr-1'} onClick={()=>dispatch(updateShowTcNotification())} />
-          <TbAdjustments className={'text-xl text-white hover:text-[rgba(0,0,0,0)]'} onClick={()=>dispatch(updateShowTcNotification())}/>
+          <button
+            className="text-white"
+            onClick={() => dispatch(updateShowTcNotification())}
+          >
+            <TbAdjustments className="w-6 h-6" />
+          </button>
         </div>
       </div>
+
+      <table className="w-full text-white">
+        <thead>
+          <tr>
+            <th className="text-left w-[216px]">
+              <span className="text-lg font-bold"></span>
+            </th>
+            <th className="text-left w-[300px]">
+              <span className="pl-8 text-lg font-bold">Mornng</span>
+            </th>
+            <th />
+            <th className="text-center w-[300px]">
+              <span className="text-lg font-bold">Afternoon</span>
+            </th>
+            <th />
+            <th className="text-center w-[300px]">
+              <span className="text-lg font-bold">Evening</span>
+            </th>
+            <th />
+            <th className="text-center w-[300px]">
+              <span className="text-lg font-bold">Overnight</span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td className="">
+              <span className="text-lg font-bold">AFib/Flutter</span>
+            </td>
+            <td>
+              <div className="flex flex-col mb-2">
+                <p className="flex items-center font-normal text-sm my-1">
+                  Burden:
+                  <span className="ml-auto text-base font-bold">59.62%</span>
+                </p>
+                <p className="flex items-center font-normal text-">
+                  Longest Duration:
+                  <span className="ml-auto text-base font-bold">59.62%</span>
+                </p>
+                <p className="flex items-center font-normal text-sm my-1">
+                  Max HR:
+                  <span className="ml-auto text-base font-bold">154bpm</span>
+                </p>
+              </div>
+            </td>
+            <td className="relative">
+              <Spacer first />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">70%</span>
+            </td>
+            <td className="relative">
+              <Spacer first />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">70%</span>
+            </td>
+            <td className="relative">
+              <Spacer first />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">70%</span>
+            </td>
+          </tr>
+
+          <tr>
+            <td className="">
+              <span className="text-lg font-bold">VT</span>
+            </td>
+            <td>
+              <div className="flex flex-col mb-2">
+                <p className="flex items-center font-normal text-sm my-1">
+                  Episodes:
+                  <span className="ml-auto text-base font-bold">59.62%</span>
+                </p>
+                <p className="flex items-center font-normal text-">
+                  Longest Duration:
+                  <span className="ml-auto text-base font-bold">57s</span>
+                </p>
+              </div>
+            </td>
+            <td className="relative">
+              <Spacer />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">30%</span>
+            </td>
+            <td className="relative">
+              <Spacer />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">30%</span>
+            </td>
+            <td className="relative">
+              <Spacer />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">30%</span>
+            </td>
+          </tr>
+
+          <tr>
+            <td className="">
+              <span className="text-lg font-bold">SVT</span>
+            </td>
+            <td>
+              <div className="flex flex-col mb-2">
+                <p className="flex items-center font-normal text-sm my-1">
+                  Episodes:
+                  <span className="ml-auto text-base font-bold">59.62%</span>
+                </p>
+                <p className="flex items-center font-normal text-sm my-1">
+                  Longest Duration:
+                  <span className="ml-auto text-base font-bold">57s</span>
+                </p>
+              </div>
+            </td>
+            <td className="relative">
+              <Spacer last />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">10%</span>
+            </td>
+            <td className="relative">
+              <Spacer last />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">10%</span>
+            </td>
+            <td className="relative">
+              <Spacer last />
+            </td>
+            <td className="text-center">
+              <span className="text-base font-bold">10%</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       {showTcNotification && <TcNotification />}
     </div>

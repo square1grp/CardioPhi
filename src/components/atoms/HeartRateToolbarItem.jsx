@@ -1,8 +1,12 @@
+import clsx from "clsx";
 import { useState } from "react";
-import { HiChevronRight } from 'react-icons/hi';
+import { FaChevronRight } from "react-icons/fa";
+import { HiChevronRight } from "react-icons/hi";
 
 const Item = ({ title = "", value = "", checked, onChange }) => {
   const [isChecked, setChecked] = useState(checked);
+
+  const id = title.toLowerCase().replace(/ /g, "-");
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -10,14 +14,58 @@ const Item = ({ title = "", value = "", checked, onChange }) => {
   };
 
   return (
-    <div className={'flex flex-row items-start'}>
-      <input type='checkbox' checked={isChecked} onChange={handleChange} className='mr-2 w-[15px] h-[15px]'/>
+    <div
+      className={clsx(
+        "border-t-8 px-1 pb-1",
+        isChecked ? "border-t-black" : "border-t-[#4A5060]"
+      )}
+    >
+      <div className="flex items-start">
+        <div className="relative flex items-center h-4 mt-2">
+          <div
+            className={clsx(
+              "w-4 h-4 border border-[#D9D9D9]",
+              isChecked && "bg-black"
+            )}
+          />
+          <input
+            id={id}
+            name={id}
+            type="checkbox"
+            className="absolute focus:ring-0 focus:ring-offset-0 h-0 w-0 border-0"
+            checked={isChecked}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="ml-1">
+          <label htmlFor={id} className="text-lg font-bold cursor-pointer">
+            {title}
+          </label>
+          <p className="text-sm">{value}</p>
+        </div>
+
+        <div className="ml-auto p-2">
+          <FaChevronRight />
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={"flex flex-row items-start"}>
+      <input
+        type="checkbox"
+        checked={isChecked}
+        onChange={handleChange}
+        className="mr-2 w-[15px] h-[15px]"
+      />
       <div className="basis-4/5 items-start">
         <div className="text-xs font-bold text-[rgba(0,0,0,0.87)]">{title}</div>
         <div className=" text-[10px] text-[rgba(0,0,0,0.6)]">{value}</div>
       </div>
       <div className="basis-1/5 items-center justify-center">
-        <HiChevronRight className={'flex text-base'}/>
+        <HiChevronRight className={"flex text-base"} />
       </div>
     </div>
   );

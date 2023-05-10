@@ -42,8 +42,8 @@ export const Header = () => {
   };
 
   return (
-    <nav className="bg-white shadow">
-      <div className="w-full mx-auto p-2">
+    <nav className="bg-white shadow border-b-2 border-b-[#D9D9D9]">
+      <div className="w-full mx-auto px-2 py-1">
         <div className="flex justify-between h-12">
           <div className="flex items-center">
             <Link to={ROUTE.INDEX} className="inline-flex items-center mr-2">
