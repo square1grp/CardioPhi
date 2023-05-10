@@ -1,13 +1,19 @@
-import { ECGChart, Header } from "components";
+import Header from "../../components/Header";
+import EcgChart from "components/Charts/EcgChart";
+import HeartRateChart from "components/Charts/HeartRateChart";
+import TimeStats from "components/Charts/TimeStats";
 
-const ECGAnalysis = () => {
+const Home = () => {
   return (
-    <div className="min-h-full flex flex-col justify-center">
+    <div className={"h-screen relative"}>
       <Header />
-
-      <ECGChart />
+      <div className="py-1 px-3 bg-main">
+        <EcgChart />
+        <HeartRateChart />
+        <TimeStats />
+      </div>
     </div>
   );
 };
 
-export default ECGAnalysis;
+export default Home;

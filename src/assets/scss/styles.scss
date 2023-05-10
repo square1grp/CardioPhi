@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./shared";
+
 @font-face {
   font-family: "Sk-Modernist";
   src: url(../fonts/Sk-Modernist-Regular.otf);

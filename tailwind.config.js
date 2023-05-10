@@ -1,8 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}",],
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
-}
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        main: "#F0F2F4",
+        "main-dark": "#D9D9D9",
 
+        mainPrimary: "#066A94",
+        borderPrimary: "#D9D9D9",
+        drawerText: "rgba(0,0,0,0.6)",
+      },
+    },
+  },
+  plugins: [require("@tailwindcss/forms")],
+};

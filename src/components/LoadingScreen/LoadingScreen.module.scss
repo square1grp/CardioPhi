@@ -1,0 +1,12 @@
+@import "../../assets/scss/shared";
+
+.loading {
+  background: $modal-backdrop-bg;
+  opacity: $modal-backdrop-opacity;
+  z-index: 100;
+  position: fixed;
+
+  .spinner {
+    z-index: 110;
+  }
+}
