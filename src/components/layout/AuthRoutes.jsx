@@ -1,12 +1,12 @@
 import { useAuth } from "providers";
+import { Fragment } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { ROUTE } from "utils";
-import { LoadingScreen } from "components";
 
 export const AuthRoutes = () => {
   const { isLoggedIn } = useAuth();
 
-  if (isLoggedIn === undefined) return <LoadingScreen show={true} />;
+  if (isLoggedIn === undefined) return <Fragment />;
 
   if (isLoggedIn) return <Outlet />;
 
