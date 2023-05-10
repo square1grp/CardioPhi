@@ -2,4 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "shared";
+@font-face {
+  font-family: "Sk-Modernist";
+  src: url(../fonts/Sk-Modernist-Regular.otf);
+}
+
+html,
+body {
+  background-color: #f0f2f4;
+
+  font-family: "Sk-Modernist";
+  font-weight: 400;
+  letter-spacing: 2px;
+  line-height: 150%;
+  font-size: 16px;
+}

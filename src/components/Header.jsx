@@ -3,11 +3,11 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import {
-  FaUserCircle,
-  FaCog,
-  FaVideo,
-  FaAngleDoubleRight,
-} from "react-icons/fa";
+  AccountCircle as AccountCircleIcon,
+  Settings as SettingsIcon,
+  Videocam as VideocamIcon,
+  KeyboardDoubleArrowRight as KeyboardDoubleArrowRightIcon,
+} from "@mui/icons-material";
 import { useAuth } from "providers";
 import { Link } from "react-router-dom";
 import { ROUTE } from "utils";
@@ -23,7 +23,7 @@ export const Header = () => {
         </Link>
 
         <span className="mx-2">
-          <FaAngleDoubleRight />
+          <KeyboardDoubleArrowRightIcon />
         </span>
 
         <Link to={ROUTE.INDEX}>
@@ -31,7 +31,7 @@ export const Header = () => {
         </Link>
 
         <span className="mx-2">
-          <FaAngleDoubleRight />
+          <KeyboardDoubleArrowRightIcon />
         </span>
 
         <Link to={ROUTE.INDEX}>
@@ -60,7 +60,7 @@ export const Header = () => {
           <div className="flex items-center">
             <button
               type="button"
-              className="h-8 relative inline-flex items-center px-3 shadow-sm text-sm font-medium text-white bg-[#066A94] hover:opacity-70 focus:outline-none mr-4"
+              className="h-8 relative inline-flex items-center px-3 shadow-sm font-medium text-white bg-[#066A94] hover:opacity-70 focus:outline-none mr-4"
             >
               <span>Report Generator</span>
             </button>
@@ -69,15 +69,15 @@ export const Header = () => {
               type="button"
               className="relative inline-flex items-center font-medium text-[#066A94] hover:opacity-70 focus:outline-none mr-4"
             >
-              <FaVideo className="h-8 w-8" />
+              <VideocamIcon fontSize="large"/>
             </button>
 
             <Menu as="div" className="mr-2 relative">
               <div>
-                <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none">
+                <Menu.Button className="bg-white rounded-full flex focus:outline-none">
                   <span className="sr-only">Open user menu</span>
 
-                  <FaUserCircle className="h-6 w-6 rounded-full" />
+                  <AccountCircleIcon className="h-6 w-6 rounded-full" />
                 </Menu.Button>
               </div>
               <Transition
@@ -95,7 +95,7 @@ export const Header = () => {
                       <button
                         className={clsx(
                           active ? "bg-gray-100" : "",
-                          "w-full block px-4 py-2 text-sm text-gray-700 text-left"
+                          "w-full block px-4 py-2 text-gray-700 text-left"
                         )}
                         onClick={signOut}
                       >
@@ -109,10 +109,10 @@ export const Header = () => {
 
             <Menu as="div" className="relative">
               <div>
-                <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none">
+                <Menu.Button className="bg-white rounded-full flex focus:outline-none">
                   <span className="sr-only">Open user menu</span>
 
-                  <FaCog className="h-6 w-6 rounded-full" />
+                  <SettingsIcon className="h-6 w-6 rounded-full" />
                 </Menu.Button>
               </div>
               <Transition
