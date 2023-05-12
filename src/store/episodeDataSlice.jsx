@@ -197,7 +197,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#fffb82',
+      color: '#c5e1a5',
     },
     PVC: {
       episodeData: pvc.value,
@@ -207,7 +207,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#C5E1A5',
+      color: '#ffab40',
     },
     OtherBeats: {
       episodeData: otherBeats.value,
@@ -217,7 +217,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#FFAB40',
+      color: '#82b1ff',
     },
     sinus: {
       episodeData: sinus.value,
@@ -227,7 +227,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#82B1FF',
+      color: '#ff8a65',
     },
     AFib: {
       episodeData: afib.value,
@@ -237,7 +237,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#FF8A65',
+      color: '#ffed80',
     },
     SVT: {
       episodeData: svt.value,
@@ -247,7 +247,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#9FA8DA',
+      color: '#b39ddb',
     },
     VT: {
       episodeData: vt.value,
@@ -257,7 +257,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#B39DDB',
+      color: '#ff80ab',
     },
     pauses: {
       episodeData: pauses.value,
@@ -267,7 +267,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#E1BEE7',
+      color: '#80ffaa',
     },
     avBlock: {
       episodeData: avBlock.value,
@@ -277,7 +277,7 @@ const initialState = {
       layout: episodeLayout.value,
       checked: false,
       show: false,
-      color: '#FF80AB',
+      color: '#80eaff',
     },
   },
 
@@ -299,10 +299,23 @@ export const episodeDataSlice = createSlice({
   reducers: {
     updateShowHrNotification(state) {
       state.showHrNotification = !state.showHrNotification;
+    },
+    setSelectedChartData(state, action) {
+      state.selectedChartData = action.payload;
+    },
+    setEpisodeChartData(state, action) {
+      Object.keys(state.episodeChartData).map((item) => {
+        if(item === action.payload.key) {
+          state.episodeChartData[item].checked = action.payload.checked;
+        }
+        else {
+          state.episodeChartData[item].checked = false;
+        }
+      });
     }
   },
 })
 
-export const { updateShowHrNotification } = episodeDataSlice.actions
+export const { updateShowHrNotification, setSelectedChartData, setEpisodeChartData } = episodeDataSlice.actions
 
 export default episodeDataSlice.reducer

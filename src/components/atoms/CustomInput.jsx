@@ -1,7 +1,7 @@
 
 const CustomInput = ({label, backLabel="", value="", onChange, readonly, style}) => {
   return (
-    <div className='flex flex-row items-center justify-start mb-[0.75rem]'>
+    <div className='flex flex-row items-center justify-start mb-[0.5rem]'>
       <div className='flex-none'>
         {label}: 
       </div>

@@ -59,8 +59,8 @@ const TcNotification = () => {
       </div>
       <div className='flex-1 text-drawerText'>
       <div className='py-2 px-3'>
-          <div className='flex flex-row mb-[0.5rem]'>
-            <input type='checkbox' className='mr-2 w-[16px]'/>
+          <div className='flex flex-row items-center mb-[0.5rem]'>
+            <input type='checkbox' className='custom-checkbox-alert mr-2'/>
             <div className="text-drawerText">AFIB/Flutter</div>
           </div>
           <div className='w-full grid grid-cols-2'>
@@ -74,8 +74,8 @@ const TcNotification = () => {
         <div className='flex border-b border-[rgba(0,0,0,0.87)]' />
 
         <div className='py-2 px-3'>
-          <div className='flex flex-row mb-[0.5rem]'>
-            <input type='checkbox' className='mr-2 w-[16px]'/>
+          <div className='flex flex-row items-center mb-[0.5rem]'>
+            <input type='checkbox' className='custom-checkbox-alert mr-2'/>
             <div className="text-drawerText">Ventricular tachycardia (VT)</div>
           </div>
           <div className='w-full grid grid-cols-2'>
@@ -89,8 +89,8 @@ const TcNotification = () => {
         <div className='flex border-b border-[rgba(0,0,0,0.87)]' />
 
         <div className='py-2 px-3'>
-          <div className='flex flex-row mb-[0.5rem]'>
-            <input type='checkbox' className='mr-2 w-[16px]'/>
+          <div className='flex flex-row items-center mb-[0.5rem]'>
+            <input type='checkbox' className='custom-checkbox-alert mr-2'/>
             <div className="text-drawerText">Supraventricular tachycardia (SVT)</div>
           </div>
           <div className='w-full grid grid-cols-2'>

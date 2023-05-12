@@ -154,7 +154,7 @@ const EcgChart = () => {
 
   return (
     <div className={"w-full overflow-hidden"}>
-      <div className="flex flex-row text-sm pb-1">
+      <div className="flex flex-row text-xs pb-1">
         <div className="flex items-center">
           Start: 07/08/2022 10:40 PM
           <BsPencil className={"mx-2"} />
@@ -172,7 +172,7 @@ const EcgChart = () => {
       </div>
 
       <div className="flex-1 bg-mainPrimary">
-        <div className="flex justify-between px-3 py-1 text-white">
+        <div className="flex justify-between px-3 text-white text-sm">
           <div className="flex items-center">
             ECG <BsPause className={"text-xl"} />
           </div>
@@ -183,24 +183,12 @@ const EcgChart = () => {
           <div className="flex items-center">
             Max HR: {Math.round(liveGraph.hr.max)} pbm
           </div>
-          <div className="relative flex items-center">
-            <div className="flex items-center h-5">
-              <input
-                id="interpretation"
-                aria-describedby="interpretation-description"
-                name="interpretation"
-                type="checkbox"
-                defaultChecked={showDetections}
-                onChange={() => setDetections(!showDetections)}
-                className="focus:ring-indigo-500 h-4 w-4"
-              />
-            </div>
-            <div className="ml-3">
-              <label htmlFor="interpretation">Interpretation</label>
-            </div>
+          <div className="flex items-center">
+            <input type='checkbox' checked={showDetections} onChange={() => setDetections(!showDetections)} className='custom-checkbox mr-1'/>
+            Interpretation
           </div>
           <div className="flex items-center"> Atrial Fibrilation/Flutter</div>
-          <div className={"flex items-center"} onClick={handlePlay}>
+          <div className={"flex items-center"}>
             <RxDotFilled className={"text-2xl"} />
             Live
           </div>
@@ -209,7 +197,7 @@ const EcgChart = () => {
         <div
           id="ecgChart"
           ref={plotRef}
-          className={"w-full h-[230px] outline-1 outline-black"}
+          className={"w-full h-[calc(18vh-10px)] outline-1 outline-black"}
         />
 
         <div className="slider progress-slider">

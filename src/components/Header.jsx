@@ -42,13 +42,13 @@ export const Header = () => {
   };
 
   return (
-    <nav className="bg-white shadow border-b-2 border-b-[#D9D9D9]">
-      <div className="w-full mx-auto px-2 py-1">
-        <div className="flex justify-between h-12">
+    <nav className="bg-white shadow border-b-2 border-b-[#D9D9D9] max-h-[40px]">
+      <div className="w-full mx-auto px-3">
+        <div className="flex justify-between h-[40px]">
           <div className="flex items-center">
             <Link to={ROUTE.INDEX} className="inline-flex items-center mr-2">
               <img
-                className="block h-8 w-auto"
+                className="block max-w-[100px] w-[100px]"
                 src="/assets/images/CardioPhi-logos_colored.png"
                 alt="CardioPhi"
               />
@@ -60,9 +60,12 @@ export const Header = () => {
           <div className="flex items-center">
             <button
               type="button"
-              className="h-8 relative inline-flex items-center px-3 shadow-sm font-medium text-white bg-[#066A94] hover:opacity-70 focus:outline-none mr-4"
+              className="relative inline-flex items-center px-2 shadow-sm font-medium text-white bg-[#066A94] hover:opacity-70 focus:outline-none mr-4"
             >
-              <span>Report Generator</span>
+              Report Generator
+              <span className="ml-1">
+                <KeyboardDoubleArrowRightIcon />
+              </span>
             </button>
 
             <button

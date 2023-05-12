@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { FaRegBell } from "react-icons/fa";
-import { TbAdjustments } from "react-icons/tb";
-
-import TcNotification from "./TcNotification";
-import { updateShowTcNotification } from "store/ecgSlice";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {Tab, Tabs} from 'react-bootstrap';
 import clsx from "clsx";
+
+import { FaRegBell } from 'react-icons/fa';
+import { TbAdjustments } from 'react-icons/tb';
+
+import TcNotification from './TcNotification';
+import { updateShowTcNotification } from 'store/ecgSlice';
 
 /**
  * Time Stats Component
  * @returns
  */
 const TimeStats = () => {
-  const [currentTab, setCurrentTab] = useState("today");
+
   const dispatch = useDispatch();
 
-  const { predictionWidget, showTcNotification } = useSelector(
-    (state) => state.ecg
-  );
+  const { predictionWidget, showTcNotification } = useSelector((state) => state.ecg);
 
   const Spacer = (props) => {
     const { first, last } = {
@@ -38,182 +38,588 @@ const TimeStats = () => {
   };
 
   return (
-    <div className={"w-full p-2 bg-mainPrimary px-4 timestats mt-1"}>
-      <div className="relative flex items-center mb-3">
-        <nav
-          className="relative rounded-xs flex items-center divide-x divide-[#BDB9B9]"
-          aria-label="Tabs"
-        >
-          {["today", "hourly", "daily"].map((tab, tabIdx) => (
-            <button
-              key={tab}
-              className={clsx(
-                tab === currentTab ? "font-bold" : "",
-                "group relative w-[108px] flex-1 bg-[#F0F2F4] text-center p-1"
-              )}
-              onClick={() => setCurrentTab(tab)}
-            >
-              <span className="capitalize">{tab}</span>
-            </button>
-          ))}
-        </nav>
+    <div className={'w-full h-[32vh] bg-mainPrimary px-2 py-1 timestats mt-1'}>
+      <div className='relative'>
+        <Tabs defaultActiveKey="today" transition={true} className="mb-1">
+          <Tab eventKey="today" title="Today">
+            <table className="text-white">
+              <thead>
+                <tr>
+                  <th className="text-left w-[140px]"></th>
+                  <th className="time-title w-[280px]">Mornng</th>
+                  <th />
+                  <th className="time-title w-[200px]">Afternoon</th>
+                  <th />
+                  <th className="time-title w-[200px]">Evening</th>
+                  <th />
+                  <th className="time-title w-[200px]">Overnight</th>
+                </tr>
+              </thead>
 
-        <div className="flex items-center ml-auto">
-          <button
-            className="text-white mr-1"
-            onClick={() => dispatch(updateShowTcNotification())}
-          >
-            <FaRegBell className="w-6 h-6" />
-          </button>
+              <tbody>
+                <tr>
+                  <td className='time-first'>AFib/Flutter</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="time-second">Burden:</span>
+                        <span className="ml-auto time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="ml-auto time-third">59s</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="time-second">Max HR:</span>
+                        <span className="ml-auto time-third">154bpm</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">70%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">70%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">70%</span>
+                  </td>
+                </tr>
 
-          <button
-            className="text-white"
-            onClick={() => dispatch(updateShowTcNotification())}
-          >
-            <TbAdjustments className="w-6 h-6" />
-          </button>
+                <tr>
+                  <td className='time-first'>VT</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="time-second">Episodes:</span>
+                        <span className="ml-auto time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="ml-auto time-third">57s</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">30%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">30%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">30%</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className='time-first'>SVT</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="time-second">Episodes:</span>
+                        <span className="ml-auto time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="ml-auto time-third">57s</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">10%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">10%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">10%</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Tab>
+          <Tab eventKey="hourly" title="Hourly">
+            <table className="text-white">
+              <thead>
+                <tr>
+                  <th className="text-left w-[140px]"></th>
+                  <th className="time-title w-[230px]">10AM</th>
+                  <th />
+                  <th className="time-title w-[130px]">11AM</th>
+                  <th />
+                  <th className="time-title w-[130px]">12AM</th>
+                  <th />
+                  <th className="time-title w-[130px]">1PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">2PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">3PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">4PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">5PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">6PM</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td className='time-first'>AFib/Flutter</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Burden:</span>
+                        <span className="basis-1/3 time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Longest Duration:</span>
+                        <span className="basis-1/3 time-third">59s</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Max HR:</span>
+                        <span className="basis-1/3 time-third">154bpm</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">37%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">34%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">27%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">33%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">35%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">28%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">39%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">37%</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className='time-first'>VT</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Episodes:</span>
+                        <span className="basis-1/3 time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Longest Duration:</span>
+                        <span className="basis-1/3 time-third">57s</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">33%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">36%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">48%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">34%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">41%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">20%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">30%</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className='time-first'>SVT</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Episodes:</span>
+                        <span className="basis-1/3 time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Longest Duration:</span>
+                        <span className="basis-1/3  time-third">57s</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">30%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">25%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">35%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">41%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">33%</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Tab>
+          <Tab eventKey="daily" title="Daily">
+          <table className="text-white">
+              <thead>
+                <tr>
+                  <th className="text-left w-[140px]"></th>
+                  <th className="time-title w-[230px]">10AM</th>
+                  <th />
+                  <th className="time-title w-[130px]">11AM</th>
+                  <th />
+                  <th className="time-title w-[130px]">12AM</th>
+                  <th />
+                  <th className="time-title w-[130px]">1PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">2PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">3PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">4PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">5PM</th>
+                  <th />
+                  <th className="time-title w-[130px]">6PM</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td className='time-first'>AFib/Flutter</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Burden:</span>
+                        <span className="basis-1/3 time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Longest Duration:</span>
+                        <span className="basis-1/3 time-third">59s</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Max HR:</span>
+                        <span className="basis-1/3 time-third">154bpm</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">37%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">34%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">27%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">33%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">35%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">28%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">39%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer first />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">37%</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className='time-first'>VT</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Episodes:</span>
+                        <span className="basis-1/3 time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Longest Duration:</span>
+                        <span className="basis-1/3 time-third">57s</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">33%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">36%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">48%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">34%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">41%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">20%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">30%</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className='time-first'>SVT</td>
+                  <td>
+                    <div className="flex-1 mb-1">
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Episodes:</span>
+                        <span className="basis-1/3 time-third">59.62%</span>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="basis-2/3 time-second">Longest Duration:</span>
+                        <span className="basis-1/3  time-third">57s</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">30%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">25%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">35%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">31%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">41%</span>
+                  </td>
+                  <td className="relative">
+                    <Spacer last />
+                  </td>
+                  <td className="text-center">
+                    <span className="text-base">33%</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Tab>
+        </Tabs>
+        <div className={'absolute right-[0.25rem] top-[0.25rem] flex items-center cursor-pointer'}>
+          <FaRegBell className={'text-xl font-bold text-white hover:text-black mr-1'} onClick={()=>dispatch(updateShowTcNotification())} />
+          <TbAdjustments className={'text-xl text-white hover:text-[rgba(0,0,0,0)]'} onClick={()=>dispatch(updateShowTcNotification())}/>
         </div>
       </div>
-
-      <table className="w-full text-white">
-        <thead>
-          <tr>
-            <th className="text-left w-[216px]">
-              <span className="text-lg font-bold"></span>
-            </th>
-            <th className="text-left w-[250px]">
-              <span className="pl-8 text-lg font-bold">Mornng</span>
-            </th>
-            <th />
-            <th className="text-center w-[250px]">
-              <span className="text-lg font-bold">Afternoon</span>
-            </th>
-            <th />
-            <th className="text-center w-[250px]">
-              <span className="text-lg font-bold">Evening</span>
-            </th>
-            <th />
-            <th className="text-center w-[250px]">
-              <span className="text-lg font-bold">Overnight</span>
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td className="">
-              <span className="text-lg font-bold">AFib/Flutter</span>
-            </td>
-            <td>
-              <div className="flex flex-col mb-2">
-                <p className="flex items-center font-normal text-sm my-1">
-                  Burden:
-                  <span className="ml-auto text-base font-bold">59.62%</span>
-                </p>
-                <p className="flex items-center font-normal text-">
-                  Longest Duration:
-                  <span className="ml-auto text-base font-bold">59.62%</span>
-                </p>
-                <p className="flex items-center font-normal text-sm my-1">
-                  Max HR:
-                  <span className="ml-auto text-base font-bold">154bpm</span>
-                </p>
-              </div>
-            </td>
-            <td className="relative">
-              <Spacer first />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">70%</span>
-            </td>
-            <td className="relative">
-              <Spacer first />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">70%</span>
-            </td>
-            <td className="relative">
-              <Spacer first />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">70%</span>
-            </td>
-          </tr>
-
-          <tr>
-            <td className="">
-              <span className="text-lg font-bold">VT</span>
-            </td>
-            <td>
-              <div className="flex flex-col mb-2">
-                <p className="flex items-center font-normal text-sm my-1">
-                  Episodes:
-                  <span className="ml-auto text-base font-bold">59.62%</span>
-                </p>
-                <p className="flex items-center font-normal text-">
-                  Longest Duration:
-                  <span className="ml-auto text-base font-bold">57s</span>
-                </p>
-              </div>
-            </td>
-            <td className="relative">
-              <Spacer />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">30%</span>
-            </td>
-            <td className="relative">
-              <Spacer />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">30%</span>
-            </td>
-            <td className="relative">
-              <Spacer />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">30%</span>
-            </td>
-          </tr>
-
-          <tr>
-            <td className="">
-              <span className="text-lg font-bold">SVT</span>
-            </td>
-            <td>
-              <div className="flex flex-col mb-2">
-                <p className="flex items-center font-normal text-sm my-1">
-                  Episodes:
-                  <span className="ml-auto text-base font-bold">59.62%</span>
-                </p>
-                <p className="flex items-center font-normal text-sm my-1">
-                  Longest Duration:
-                  <span className="ml-auto text-base font-bold">57s</span>
-                </p>
-              </div>
-            </td>
-            <td className="relative">
-              <Spacer last />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">10%</span>
-            </td>
-            <td className="relative">
-              <Spacer last />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">10%</span>
-            </td>
-            <td className="relative">
-              <Spacer last />
-            </td>
-            <td className="text-center">
-              <span className="text-base font-bold">10%</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
+      
       {showTcNotification && <TcNotification />}
     </div>
   );

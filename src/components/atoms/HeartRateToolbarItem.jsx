@@ -2,50 +2,44 @@ import clsx from "clsx";
 import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 
-const Item = ({ title = "", value = "", checked, onChange }) => {
-  const [isChecked, setChecked] = useState(checked);
-
+const Item = ({ title = "", subTitle="",  value = "", checked, color, onChange }) => {
   const id = title.toLowerCase().replace(/ /g, "-");
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
-    onChange(event.target.checked);
+    onChange(event.target);
   };
 
   return (
     <div
       className={clsx(
-        "border-t-8 px-1 pb-1",
-        isChecked ? "border-t-black" : "border-t-[#4A5060]"
+        "border-t-[6px] px-1 py-[3px]",
+        checked ? "border-t-black" : "border-t-[#4A5060]"
       )}
+      style={{backgroundColor: clsx(checked ? color : "white")}}
     >
       <div className="flex items-start">
-        <div className="relative flex items-center h-4 mt-2">
-          <div
-            className={clsx(
-              "w-4 h-4 border border-[#D9D9D9]",
-              isChecked && "bg-black"
-            )}
-          />
-          <input
-            id={id}
-            name={id}
-            type="checkbox"
-            className="absolute focus:ring-0 focus:ring-offset-0 h-0 w-0 border-0"
-            checked={isChecked}
-            onChange={handleChange}
-          />
+        <div className={"flex flex-row"}>
+          <div className="flex-none items-start">
+            <input
+              type='checkbox'
+              id={id}
+              name={id}
+              value={value}
+              checked={checked}
+              onChange={handleChange}
+              className='mr-2 w-[15px] h-[15px] custom-checkbox cursor-pointer'
+            />
+          </div>
+          <div className="flex-1 ml-1">
+            <label className="text-xs font-bold">
+              {title}
+            </label>
+            <p className="text-[10px] leading-3">{subTitle}</p>
+          </div>
         </div>
 
-        <div className="ml-1">
-          <label htmlFor={id} className="text-lg font-bold cursor-pointer">
-            {title}
-          </label>
-          <p className="text-sm">{value}</p>
-        </div>
-
-        <div className="ml-auto p-2">
-          <FaChevronRight />
+        <div className="flex flex-1 items-center justify-end p-2">
+          <FaChevronRight size={14} className="mr-8"/>
         </div>
       </div>
     </div>

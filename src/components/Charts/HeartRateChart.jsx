@@ -5,10 +5,11 @@ import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
 import Plotly from "plotly.js-dist-min";
 
 import HrNotification from "./HrNotification";
+import EpisodeChart from './EpisodeChart';
 import ZoomSlider from "components/atoms/ZoomSlider";
 import HeartRateToolbarItem from "../../components/atoms/HeartRateToolbarItem";
 
-import { setSelectedChartData } from "store/heartRateSlice";
+import { setSelectedChartData, setEpisodeChartData } from 'store/episodeDataSlice';
 import { updateShowHrNotification } from "store/episodeDataSlice";
 
 /**
@@ -25,6 +26,7 @@ const HeartRateChart = () => {
   const episodeChartData = useSelector(
     (state) => state.episodeData.episodeChartData
   );
+
   const selectedChartData = useSelector(
     (state) => state.episodeData.selectedChartData
   );
@@ -183,89 +185,44 @@ const HeartRateChart = () => {
   const hideMin = {
     shapes: [],
   };
+  
+  const updateSelectedChart = (target) => {
+    dispatch(setEpisodeChartData({key: target.value, checked: target.checked}));
+    if (target.checked) {
+      dispatch(setSelectedChartData({...episodeChartData[target.value], checked: true, show: true}));
+    } else {
+      dispatch(setSelectedChartData({...selectedChartData, checked: false, show: false}));
+      
+    }
+    setTimeout(() => { (Plotly.Plots.resize('heartRateChart')); }, 125);
+    setTimeout(() => { (Plotly.Plots.resize('ecgChart')); }, 125);
+  };
 
   useEffect(() => {
     if (selectedChartData.checked) {
-      hrshapes.map((shape) =>
-        Object.assign(shape, { fillcolor: selectedChartData.color })
-      );
-      Plotly.relayout("heartRateChart", showMin);
+      hrshapes.map((shape) => Object.assign(shape,
+        { fillcolor: selectedChartData.color }));
+      Plotly.relayout('heartRateChart', showMin);
     } else {
-      Plotly.relayout("heartRateChart", hideMin);
+      Plotly.relayout('heartRateChart', hideMin);
     }
   }, [selectedChartData]);
 
-  const updateSelectedChart = (val) => {
-    if (val) {
-      if (selectedChartData.checked) {
-        selectedChartData.checked = false;
-      }
-
-      // eslint-disable-next-line dot-notation
-      dispatch(setSelectedChartData(episodeChartData[val]));
-      dispatch(setSelectedChartData({ ...selectedChartData, show: true }));
-      Object.keys(episodeChartData).map((item) =>
-        Object.assign(item, { test: false })
-      );
-    } else {
-      dispatch(setSelectedChartData({ ...selectedChartData, show: false }));
-    }
-    setTimeout(() => {
-      Plotly.Plots.resize("heartRateChart");
-    }, 125);
-    setTimeout(() => {
-      Plotly.Plots.resize("ecgChart");
-    }, 125);
-  };
 
   return (
-    <div className={"w-full overflow-hidden"}>
+    <div className={"w-full"}>
       <div className="flex-1 w-full h-full">
-        <div className="relative flex justify-between bg-white border-[1px] border-borderPrimary mb-1">
+        <div className="relative flex justify-between bg-white border-[1px] border-borderPrimary">
           <div className="w-full grid grid-cols-6">
-            <HeartRateToolbarItem
-              title="Min HR"
-              value="58 pbm"
-              checked={episodeChartData.minHR.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="Max HR"
-              value="115 pbm"
-              checked={episodeChartData.maxHR.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="PSVC"
-              value="254 Beats"
-              checked={episodeChartData.PSVC.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="PVC"
-              value="254 Beats"
-              checked={episodeChartData.PVC.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="Other Beats"
-              value="254 Beats"
-              checked={episodeChartData.OtherBeats.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="Sinus"
-              value="5 Examples"
-              checked={episodeChartData.sinus.checked}
-              onChange={updateSelectedChart}
-            />
+            <HeartRateToolbarItem title="Min HR" subTitle="58 pbm" value="minHR" color={"#ffa29e"} checked={episodeChartData.minHR.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="Max HR" subTitle="115 pbm" value="maxHR" color={"#9274d5"} checked={episodeChartData.maxHR.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="PSVC" subTitle="254 Beats" value="PSVC" color={"#c5e1a5"} checked={episodeChartData.PSVC.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="PVC" subTitle="254 Beats" value="PVC" color={"#ffab40"} checked={episodeChartData.PVC.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="Other Beats" subTitle="254 Beats" value="OtherBeats" color={"#82b1ff"} checked={episodeChartData.OtherBeats.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="Sinus" subTitle="5 Examples" value="sinus" color={"#ff8a65"} checked={episodeChartData.sinus.checked} onChange={target => updateSelectedChart(target)} />
           </div>
 
-          <div
-            className={
-              "flex items-start justify-end w-[150px] border-t-8 border-t-[#4A5060] p-1"
-            }
-          >
+          <div className={"flex items-center justify-end w-[150px] border-t-[6px] border-t-[#4A5060] p-1"}>
             <button
               className={"text-xl text-[#222121] mr-1"}
               onClick={() => dispatch(updateShowHrNotification())}
@@ -284,36 +241,11 @@ const HeartRateChart = () => {
 
         <div className="flex justify-between bg-white border-[1px] border-borderPrimary mb-1">
           <div className="w-full grid grid-cols-5">
-            <HeartRateToolbarItem
-              title="AFib/Flutter"
-              value="Burden 59.62%"
-              checked={episodeChartData.AFib.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="SVT"
-              value="1 episode"
-              checked={episodeChartData.SVT.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="VT"
-              value="5 Episodes"
-              checked={episodeChartData.VT.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="Pauses"
-              value="3 Episodes"
-              checked={episodeChartData.pauses.checked}
-              onChange={updateSelectedChart}
-            />
-            <HeartRateToolbarItem
-              title="AV Block"
-              value="Type --"
-              checked={episodeChartData.avBlock.checked}
-              onChange={updateSelectedChart}
-            />
+            <HeartRateToolbarItem title="AFib/Flutter" subTitle="Burden 59.62%" value="AFib" color={"#ffed80"} checked={episodeChartData.AFib.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="SVT" subTitle="1 episode" value="SVT" color={"#b39ddb"} checked={episodeChartData.SVT.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="VT" subTitle="5 Episodes" value="VT" color={"#ff80ab"} checked={episodeChartData.VT.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="Pauses" subTitle="3 Episodes" value="pauses" color={"#80ffaa"} checked={episodeChartData.pauses.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem title="AV Block" subTitle="Type --" value="avBlock" color={"#80eaff"} checked={episodeChartData.avBlock.checked} onChange={target => updateSelectedChart(target)} />
           </div>
         </div>
 
@@ -321,7 +253,7 @@ const HeartRateChart = () => {
           id="heartRateChart"
           ref={heartPlotRef}
           className={
-            "w-full h-[230px] outline outline-1 outline-borderPrimary mt-4"
+            "w-full h-[18vh] outline outline-1 outline-borderPrimary"
           }
         />
         <div className="flex justify-end items-cente">
@@ -337,6 +269,7 @@ const HeartRateChart = () => {
       </div>
 
       {showHrNotification && <HrNotification />}
+      {/* {selectedChartData.checked && <EpisodeChart show={selectedChartData.show} />} */}
     </div>
   );
 };
