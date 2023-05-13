@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BsBell } from "react-icons/bs";
 import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
@@ -9,7 +9,11 @@ import HrNotification from "./HrNotification";
 import ZoomSlider from "components/atoms/ZoomSlider";
 import HeartRateToolbarItem from "../atoms/HeartRateToolbarItem";
 
-import { setSelectedChartData, setEpisodeChartDataChecked, setEpisodeData } from 'store/episodeDataSlice';
+import {
+  setSelectedChartData,
+  setEpisodeChartDataChecked,
+  setEpisodeData,
+} from "store/episodeDataSlice";
 import { updateShowHrNotification } from "store/episodeDataSlice";
 
 /**
@@ -23,12 +27,10 @@ const HeartRateChart = () => {
 
   const heartPlotRef = useRef(null);
 
-  const { episodeChartData, selectedChartData, showHrNotification } = useSelector((state) => state.episodeData);
+  const { episodeChartData, selectedChartData, showHrNotification } =
+    useSelector((state) => state.episodeData);
 
-  const {
-    AfibChart1,
-    avBlockChart,
-  } = useSelector((state) => state.episodes);
+  const { AfibChart1, avBlockChart } = useSelector((state) => state.episodes);
 
   const heartRateStore = useSelector((state) => state.heartRate);
   const every10th = (value, index, arr) => index % 10 === 0;
@@ -67,30 +69,36 @@ const HeartRateChart = () => {
 
   useEffect(() => {
     let epiData = [
-      [{
-        x: [],
-        y: [],
-        type: 'scatter',
-        line: {
-          color: "black",
+      [
+        {
+          x: [],
+          y: [],
+          type: "scatter",
+          line: {
+            color: "black",
+          },
         },
-      }],
-      [{
-        x: [],
-        y: [],
-        type: 'scatter',
-        line: {
-          color: "black",
+      ],
+      [
+        {
+          x: [],
+          y: [],
+          type: "scatter",
+          line: {
+            color: "black",
+          },
         },
-      }],
-      [{
-        x: [],
-        y: [],
-        type: 'scatter',
-        line: {
-          color: "black",
+      ],
+      [
+        {
+          x: [],
+          y: [],
+          type: "scatter",
+          line: {
+            color: "black",
+          },
         },
-      }],
+      ],
     ];
     avBlockChart.chart1.forEach((value, index) => {
       epiData[0][0].x.push(index);
@@ -106,30 +114,36 @@ const HeartRateChart = () => {
     });
 
     let afibEpiData = [
-      [{
-        x: [],
-        y: [],
-        type: 'scatter',
-        line: {
-          color: 'black',
+      [
+        {
+          x: [],
+          y: [],
+          type: "scatter",
+          line: {
+            color: "black",
+          },
         },
-      }],
-      [{
-        x: [],
-        y: [],
-        type: 'scatter',
-        line: {
-          color: 'black',
+      ],
+      [
+        {
+          x: [],
+          y: [],
+          type: "scatter",
+          line: {
+            color: "black",
+          },
         },
-      }],
-      [{
-        x: [],
-        y: [],
-        type: 'scatter',
-        line: {
-          color: 'black',
+      ],
+      [
+        {
+          x: [],
+          y: [],
+          type: "scatter",
+          line: {
+            color: "black",
+          },
         },
-      }],
+      ],
     ];
     AfibChart1.afibEpisode1.forEach((value, index) => {
       afibEpiData[0][0].x.push(index);
@@ -144,17 +158,41 @@ const HeartRateChart = () => {
       afibEpiData[2][0].y.push(value);
     });
 
-    dispatch(setEpisodeData({episodeData: epiData, afibEpisodesData: afibEpiData}));
+    dispatch(
+      setEpisodeData({ episodeData: epiData, afibEpisodesData: afibEpiData })
+    );
   }, [avBlockChart, AfibChart1]);
+
+  const getYData = useCallback(() => {
+    const yData = [];
+    if (!heartRateStore?.beatdata?.length) return yData;
+
+    const xCount = heartRateStore.beatdata.length;
+    const yCount = Math.min(
+      ...heartRateStore.beatdata.map((v) => v.filter(every10th).length)
+    );
+
+    for (let i = 0; i < yCount; i++) {
+      const yValues = [];
+
+      for (let j = 0; j < xCount; j++)
+        yValues.push(heartRateStore.beatdata[j][i * 10]);
+
+      yData.push(Math.max(...yValues));
+    }
+    return yData;
+  }, [heartRateStore?.beatdata]);
 
   useEffect(() => {
     Plotly.newPlot(
       heartPlotRef.current,
       [
         {
-          z: heartRateStore.beatdata.map((v, i) => v.filter(every10th)),
+          // z: heartRateStore.beatdata.map((v, i) => v.filter(every10th)),
+          y: getYData(),
           showscale: false,
-          type: "heatmap",
+          mode: "makers",
+          type: "scatter",
           colorscale: [
             ["0.0", "#fff"],
             ["0.1", "#fff"],
@@ -262,46 +300,123 @@ const HeartRateChart = () => {
   const hideMin = {
     shapes: [],
   };
-  
+
   const updateSelectedChart = (target) => {
-    dispatch(setEpisodeChartDataChecked({key: target.value, checked: target.checked}));
+    dispatch(
+      setEpisodeChartDataChecked({ key: target.value, checked: target.checked })
+    );
     if (target.checked) {
-      dispatch(setSelectedChartData({...episodeChartData[target.value], checked: target.value, show: true}));
+      dispatch(
+        setSelectedChartData({
+          ...episodeChartData[target.value],
+          checked: target.value,
+          show: true,
+        })
+      );
     } else {
-      dispatch(setSelectedChartData({...selectedChartData, checked: "", show: false}));
+      dispatch(
+        setSelectedChartData({ ...selectedChartData, checked: "", show: false })
+      );
     }
-    setTimeout(() => { (Plotly.Plots.resize('heartRateChart')); }, 125);
-    setTimeout(() => { (Plotly.Plots.resize('ecgChart')); }, 125);
   };
 
   useEffect(() => {
     if (selectedChartData.show) {
-      hrshapes.map((shape) => Object.assign(shape,
-        { fillcolor: selectedChartData.color }));
-      Plotly.relayout('heartRateChart', showMin);
+      hrshapes.map((shape) =>
+        Object.assign(shape, { fillcolor: selectedChartData.color })
+      );
+      Plotly.relayout("heartRateChart", showMin);
     } else {
-      Plotly.relayout('heartRateChart', hideMin);
+      Plotly.relayout("heartRateChart", hideMin);
     }
+
+    setTimeout(() => {
+      Plotly.Plots.resize("heartRateChart");
+      Plotly.Plots.resize("ecgChart");
+    }, 150);
   }, [selectedChartData]);
 
+  const handleZoomChange = (newValue) => {
+    if (newValue === zoomValue) return;
+
+    for (let times = 0; times < Math.abs(newValue - zoomValue); times++) {
+      heartPlotRef.current
+        .querySelector(
+          `a[data-attr="zoom"][data-val="${
+            newValue > zoomValue ? "in" : "out"
+          }"]`
+        )
+        .click();
+    }
+
+    setZoomValue(newValue);
+  };
 
   return (
     <div className={"flex w-full"}>
-      <div className={clsx(
-        selectedChartData.show ? "basis-1/2" : "w-full",
-        "flex-1 h-full"
-      )}>
+      <div
+        className={clsx(
+          selectedChartData.show ? "basis-1/2" : "w-full",
+          "flex-1 h-full"
+        )}
+      >
         <div className="relative flex justify-between bg-white border-[1px] border-borderPrimary">
           <div className="w-full grid grid-cols-6">
-            <HeartRateToolbarItem title="Min HR" subTitle="58 pbm" value="minHR" color={"#ffa29e"} checked={episodeChartData.minHR.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="Max HR" subTitle="115 pbm" value="maxHR" color={"#9274d5"} checked={episodeChartData.maxHR.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="PSVC" subTitle="254 Beats" value="PSVC" color={"#c5e1a5"} checked={episodeChartData.PSVC.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="PVC" subTitle="254 Beats" value="PVC" color={"#ffab40"} checked={episodeChartData.PVC.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="Other Beats" subTitle="254 Beats" value="OtherBeats" color={"#82b1ff"} checked={episodeChartData.OtherBeats.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="Sinus" subTitle="5 Examples" value="sinus" color={"#ff8a65"} checked={episodeChartData.sinus.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem
+              title="Min HR"
+              subTitle="58 pbm"
+              value="minHR"
+              color={"#ffa29e"}
+              checked={episodeChartData.minHR.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="Max HR"
+              subTitle="115 pbm"
+              value="maxHR"
+              color={"#9274d5"}
+              checked={episodeChartData.maxHR.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="PSVC"
+              subTitle="254 Beats"
+              value="PSVC"
+              color={"#c5e1a5"}
+              checked={episodeChartData.PSVC.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="PVC"
+              subTitle="254 Beats"
+              value="PVC"
+              color={"#ffab40"}
+              checked={episodeChartData.PVC.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="Other Beats"
+              subTitle="254 Beats"
+              value="OtherBeats"
+              color={"#82b1ff"}
+              checked={episodeChartData.OtherBeats.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="Sinus"
+              subTitle="5 Examples"
+              value="sinus"
+              color={"#ff8a65"}
+              checked={episodeChartData.sinus.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
           </div>
 
-          <div className={"flex items-center justify-end w-[150px] border-t-[6px] border-t-[#4A5060] p-1"}>
+          <div
+            className={
+              "flex items-center justify-end w-[150px] border-t-[6px] border-t-[#4A5060] p-1"
+            }
+          >
             <button
               className={"text-xl text-[#222121] mr-1"}
               onClick={() => dispatch(updateShowHrNotification())}
@@ -320,29 +435,57 @@ const HeartRateChart = () => {
 
         <div className="flex justify-between bg-white border-[1px] border-borderPrimary mb-1">
           <div className="w-full grid grid-cols-5">
-            <HeartRateToolbarItem title="AFib/Flutter" subTitle="Burden 59.62%" value="AFib" color={"#ffed80"} checked={episodeChartData.AFib.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="SVT" subTitle="1 episode" value="SVT" color={"#b39ddb"} checked={episodeChartData.SVT.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="VT" subTitle="5 Episodes" value="VT" color={"#ff80ab"} checked={episodeChartData.VT.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="Pauses" subTitle="3 Episodes" value="pauses" color={"#80ffaa"} checked={episodeChartData.pauses.checked} onChange={target => updateSelectedChart(target)} />
-            <HeartRateToolbarItem title="AV Block" subTitle="Type --" value="avBlock" color={"#80eaff"} checked={episodeChartData.avBlock.checked} onChange={target => updateSelectedChart(target)} />
+            <HeartRateToolbarItem
+              title="AFib/Flutter"
+              subTitle="Burden 59.62%"
+              value="AFib"
+              color={"#ffed80"}
+              checked={episodeChartData.AFib.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="SVT"
+              subTitle="1 episode"
+              value="SVT"
+              color={"#b39ddb"}
+              checked={episodeChartData.SVT.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="VT"
+              subTitle="5 Episodes"
+              value="VT"
+              color={"#ff80ab"}
+              checked={episodeChartData.VT.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="Pauses"
+              subTitle="3 Episodes"
+              value="pauses"
+              color={"#80ffaa"}
+              checked={episodeChartData.pauses.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
+            <HeartRateToolbarItem
+              title="AV Block"
+              subTitle="Type --"
+              value="avBlock"
+              color={"#80eaff"}
+              checked={episodeChartData.avBlock.checked}
+              onChange={(target) => updateSelectedChart(target)}
+            />
           </div>
         </div>
 
         <div
           id="heartRateChart"
           ref={heartPlotRef}
-          className={
-            "w-full h-[18vh] outline outline-1 outline-borderPrimary"
-          }
+          className={"w-full h-[18vh] outline outline-1 outline-borderPrimary"}
         />
         <div className="flex justify-end items-cente">
           <div className="items-center w-36">
-            <ZoomSlider
-              value={zoomValue}
-              onChange={(value) => {
-                setZoomValue(value);
-              }}
-            />
+            <ZoomSlider value={zoomValue} onChange={handleZoomChange} />
           </div>
         </div>
       </div>

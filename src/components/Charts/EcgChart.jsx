@@ -158,27 +158,17 @@ const EcgChart = () => {
   const handleZoomChange = (newValue) => {
     if (newValue === zoomValue) return;
 
-    const isZoomIn = newValue > zoomValue;
-    const totalTimes = Math.abs(newValue - zoomValue);
-
-    for (let times = 0; times < totalTimes; times++) {
-      if (isZoomIn) handleZoomIn();
-      else handleZoomOut();
+    for (let times = 0; times < Math.abs(newValue - zoomValue); times++) {
+      plotRef.current
+        .querySelector(
+          `a[data-attr="zoom"][data-val="${
+            newValue > zoomValue ? "in" : "out"
+          }"]`
+        )
+        .click();
     }
-  };
 
-  const handleZoomIn = () => {
-    setZoomValue(zoomValue + 1);
-
-    plotRef.current.querySelector('a[data-attr="zoom"][data-val="in"]').click();
-  };
-
-  const handleZoomOut = () => {
-    setZoomValue(zoomValue - 1);
-
-    plotRef.current
-      .querySelector('a[data-attr="zoom"][data-val="out"]')
-      .click();
+    setZoomValue(newValue);
   };
 
   return (
@@ -272,12 +262,7 @@ const EcgChart = () => {
           </button>
 
           <div className="flex-none items-center w-36">
-            <ZoomSlider
-              value={zoomValue}
-              onZoomIn={handleZoomIn}
-              onZoomOut={handleZoomOut}
-              onChangeValue={handleZoomChange}
-            />
+            <ZoomSlider value={zoomValue} onChange={handleZoomChange} />
           </div>
         </div>
       </div>
