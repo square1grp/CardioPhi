@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsBell } from "react-icons/bs";
 import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
 import Plotly from "plotly.js-dist-min";
+import clsx from "clsx";
 
 import HrNotification from "./HrNotification";
-import EpisodeChart from './EpisodeChart';
 import ZoomSlider from "components/atoms/ZoomSlider";
-import HeartRateToolbarItem from "../../components/atoms/HeartRateToolbarItem";
+import HeartRateToolbarItem from "../atoms/HeartRateToolbarItem";
 
-import { setSelectedChartData, setEpisodeChartData } from 'store/episodeDataSlice';
+import { setSelectedChartData, setEpisodeChartDataChecked, setEpisodeData } from 'store/episodeDataSlice';
 import { updateShowHrNotification } from "store/episodeDataSlice";
 
 /**
@@ -23,17 +23,12 @@ const HeartRateChart = () => {
 
   const heartPlotRef = useRef(null);
 
-  const episodeChartData = useSelector(
-    (state) => state.episodeData.episodeChartData
-  );
+  const { episodeChartData, selectedChartData, showHrNotification } = useSelector((state) => state.episodeData);
 
-  const selectedChartData = useSelector(
-    (state) => state.episodeData.selectedChartData
-  );
-
-  const showHrNotification = useSelector(
-    (state) => state.episodeData.showHrNotification
-  );
+  const {
+    AfibChart1,
+    avBlockChart,
+  } = useSelector((state) => state.episodes);
 
   const heartRateStore = useSelector((state) => state.heartRate);
   const every10th = (value, index, arr) => index % 10 === 0;
@@ -69,6 +64,88 @@ const HeartRateChart = () => {
       r: 0,
     },
   };
+
+  useEffect(() => {
+    let epiData = [
+      [{
+        x: [],
+        y: [],
+        type: 'scatter',
+        line: {
+          color: "black",
+        },
+      }],
+      [{
+        x: [],
+        y: [],
+        type: 'scatter',
+        line: {
+          color: "black",
+        },
+      }],
+      [{
+        x: [],
+        y: [],
+        type: 'scatter',
+        line: {
+          color: "black",
+        },
+      }],
+    ];
+    avBlockChart.chart1.forEach((value, index) => {
+      epiData[0][0].x.push(index);
+      epiData[0][0].y.push(value);
+    });
+    avBlockChart.chart2.forEach((value, index) => {
+      epiData[1][0].x.push(index);
+      epiData[1][0].y.push(value);
+    });
+    avBlockChart.chart3.forEach((value, index) => {
+      epiData[2][0].x.push(index);
+      epiData[2][0].y.push(value);
+    });
+
+    let afibEpiData = [
+      [{
+        x: [],
+        y: [],
+        type: 'scatter',
+        line: {
+          color: 'black',
+        },
+      }],
+      [{
+        x: [],
+        y: [],
+        type: 'scatter',
+        line: {
+          color: 'black',
+        },
+      }],
+      [{
+        x: [],
+        y: [],
+        type: 'scatter',
+        line: {
+          color: 'black',
+        },
+      }],
+    ];
+    AfibChart1.afibEpisode1.forEach((value, index) => {
+      afibEpiData[0][0].x.push(index);
+      afibEpiData[0][0].y.push(value);
+    });
+    AfibChart1.afibEpisode2.forEach((value, index) => {
+      afibEpiData[1][0].x.push(index);
+      afibEpiData[1][0].y.push(value);
+    });
+    AfibChart1.afibEpisode3.forEach((value, index) => {
+      afibEpiData[2][0].x.push(index);
+      afibEpiData[2][0].y.push(value);
+    });
+
+    dispatch(setEpisodeData({episodeData: epiData, afibEpisodesData: afibEpiData}));
+  }, [avBlockChart, AfibChart1]);
 
   useEffect(() => {
     Plotly.newPlot(
@@ -187,19 +264,18 @@ const HeartRateChart = () => {
   };
   
   const updateSelectedChart = (target) => {
-    dispatch(setEpisodeChartData({key: target.value, checked: target.checked}));
+    dispatch(setEpisodeChartDataChecked({key: target.value, checked: target.checked}));
     if (target.checked) {
-      dispatch(setSelectedChartData({...episodeChartData[target.value], checked: true, show: true}));
+      dispatch(setSelectedChartData({...episodeChartData[target.value], checked: target.value, show: true}));
     } else {
-      dispatch(setSelectedChartData({...selectedChartData, checked: false, show: false}));
-      
+      dispatch(setSelectedChartData({...selectedChartData, checked: "", show: false}));
     }
     setTimeout(() => { (Plotly.Plots.resize('heartRateChart')); }, 125);
     setTimeout(() => { (Plotly.Plots.resize('ecgChart')); }, 125);
   };
 
   useEffect(() => {
-    if (selectedChartData.checked) {
+    if (selectedChartData.show) {
       hrshapes.map((shape) => Object.assign(shape,
         { fillcolor: selectedChartData.color }));
       Plotly.relayout('heartRateChart', showMin);
@@ -210,8 +286,11 @@ const HeartRateChart = () => {
 
 
   return (
-    <div className={"w-full"}>
-      <div className="flex-1 w-full h-full">
+    <div className={"flex w-full"}>
+      <div className={clsx(
+        selectedChartData.show ? "basis-1/2" : "w-full",
+        "flex-1 h-full"
+      )}>
         <div className="relative flex justify-between bg-white border-[1px] border-borderPrimary">
           <div className="w-full grid grid-cols-6">
             <HeartRateToolbarItem title="Min HR" subTitle="58 pbm" value="minHR" color={"#ffa29e"} checked={episodeChartData.minHR.checked} onChange={target => updateSelectedChart(target)} />
@@ -267,9 +346,7 @@ const HeartRateChart = () => {
           </div>
         </div>
       </div>
-
       {showHrNotification && <HrNotification />}
-      {/* {selectedChartData.checked && <EpisodeChart show={selectedChartData.show} />} */}
     </div>
   );
 };

@@ -50,7 +50,7 @@ const TcNotification = () => {
   };
 
   return (
-    <div className={'h-screen absolute top-0 right-0 text-white w-[450px] bg-[#f0f2f4] z-[999]'}>
+    <div className={'h-screen absolute top-0 right-0 text-white w-[450px] bg-main z-[999]'}>
       <div className='flex justify-between px-3 text-sm bg-mainPrimary py-[0.5rem]'>
         <div className='flex items-center text-xl'>Alert Editor <FaRegBell className={'ml-2 text-xl'}/></div>
         <div className={'flex items-center cursor-pointer'} onClick={() => {dispatch(updateShowTcNotification())}}>

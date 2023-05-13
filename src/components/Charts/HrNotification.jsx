@@ -68,7 +68,7 @@ const HrNotification = () => {
   };
 
   return (
-    <div className={'h-screen absolute top-0 right-0 text-white tracking-tight w-[500px] bg-[#f0f2f4] z-[999]'}>
+    <div className={'h-screen absolute top-0 right-0 text-white tracking-tight w-[500px] bg-main z-[999]'}>
       <div className='flex justify-between px-3 bg-mainPrimary py-[0.5rem]'>
         <div className='flex items-center text-lg'>Alert Editor <FaRegBell className={'ml-2 text-lg'}/></div>
         <div className={'flex items-center cursor-pointer'} onClick={() => {dispatch(updateShowHrNotification())}}>

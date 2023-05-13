@@ -17,7 +17,7 @@ const episodeData = [
     y: [],
     type: 'scatter',
     line: {
-      color: 'black',
+      color: "black",
     },
   }],
   [{
@@ -25,7 +25,7 @@ const episodeData = [
     y: [],
     type: 'scatter',
     line: {
-      color: 'black',
+      color: "black",
     },
   }],
   [{
@@ -33,7 +33,7 @@ const episodeData = [
     y: [],
     type: 'scatter',
     line: {
-      color: 'black',
+      color: "black",
     },
   }],
 ];
@@ -170,111 +170,111 @@ const initialState = {
 
   episodeChartData: {
     minHR: {
-      episodeData: minHR.value,
+      episodeData: minHR,
       chartTitle: 'Min HR',
       chartId: 'minhr',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#ffa29e',
     },
     maxHR: {
-      episodeData: maxHR.value,
+      episodeData: maxHR,
       chartTitle: 'Max HR',
       chartId: 'maxhr',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#9274d5',
     },
     PSVC: {
-      episodeData: psvc.value,
+      episodeData: psvc,
       chartTitle: 'PSVC',
       chartId: 'psvc',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#c5e1a5',
     },
     PVC: {
-      episodeData: pvc.value,
+      episodeData: pvc,
       chartTitle: 'PVC',
       chartId: 'pvc',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#ffab40',
     },
     OtherBeats: {
-      episodeData: otherBeats.value,
+      episodeData: otherBeats,
       chartTitle: 'Other Beats',
       chartId: 'other_beats',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#82b1ff',
     },
     sinus: {
-      episodeData: sinus.value,
+      episodeData: sinus,
       chartTitle: 'Sinus',
       chartId: 'sinus',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#ff8a65',
     },
     AFib: {
-      episodeData: afib.value,
+      episodeData: afib,
       chartTitle: 'AFib/Flutter',
       chartId: 'afib',
-      data: afibEpisodesData.value,
-      layout: episodeLayout.value,
+      data: afibEpisodesData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#ffed80',
     },
     SVT: {
-      episodeData: svt.value,
+      episodeData: svt,
       chartTitle: 'SVT',
       chartId: 'svt',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#b39ddb',
     },
     VT: {
-      episodeData: vt.value,
+      episodeData: vt,
       chartTitle: 'VT',
       chartId: 'vt',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#ff80ab',
     },
     pauses: {
-      episodeData: pauses.value,
+      episodeData: pauses,
       chartTitle: 'Pauses',
       chartId: 'pauses',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#80ffaa',
     },
     avBlock: {
-      episodeData: avBlock.value,
+      episodeData: avBlock,
       chartTitle: 'AV Block',
       chartId: 'av_block',
-      data: episodeData.value,
-      layout: episodeLayout.value,
+      data: episodeData,
+      layout: episodeLayout,
       checked: false,
       show: false,
       color: '#80eaff',
@@ -287,7 +287,7 @@ const initialState = {
     chartId: '',
     data: [{}],
     layout: {},
-    checked: false,
+    checked: "",
     show: false,
     color: '',
   },
@@ -303,7 +303,7 @@ export const episodeDataSlice = createSlice({
     setSelectedChartData(state, action) {
       state.selectedChartData = action.payload;
     },
-    setEpisodeChartData(state, action) {
+    setEpisodeChartDataChecked(state, action) {
       Object.keys(state.episodeChartData).map((item) => {
         if(item === action.payload.key) {
           state.episodeChartData[item].checked = action.payload.checked;
@@ -312,10 +312,18 @@ export const episodeDataSlice = createSlice({
           state.episodeChartData[item].checked = false;
         }
       });
+    },
+    setEpisodeData(state, action) {
+      state.episodeData = action.payload.episodeData;
+      state.afibEpisodesData = action.payload.afibEpisodesData;
+
+      Object.keys(state.episodeChartData).map((item) => {
+        state.episodeChartData[item].data = action.payload.episodeData;
+      });
     }
   },
 })
 
-export const { updateShowHrNotification, setSelectedChartData, setEpisodeChartData } = episodeDataSlice.actions
+export const { updateShowHrNotification, setSelectedChartData, setEpisodeChartDataChecked, setEpisodeData } = episodeDataSlice.actions
 
 export default episodeDataSlice.reducer

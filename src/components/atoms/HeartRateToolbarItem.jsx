@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useSelector } from 'react-redux';
 import { FaChevronRight } from "react-icons/fa";
 
 const Item = ({ title = "", subTitle="",  value = "", checked, color, onChange }) => {
@@ -8,6 +8,8 @@ const Item = ({ title = "", subTitle="",  value = "", checked, color, onChange }
   const handleChange = (event) => {
     onChange(event.target);
   };
+
+  const show = useSelector((state) => state.episodeData.selectedChartData.show);
 
   return (
     <div
@@ -30,7 +32,7 @@ const Item = ({ title = "", subTitle="",  value = "", checked, color, onChange }
               className='mr-2 w-[15px] h-[15px] custom-checkbox cursor-pointer'
             />
           </div>
-          <div className="flex-1 ml-1">
+          <div className="flex-2 ml-1">
             <label className="text-xs font-bold">
               {title}
             </label>
@@ -39,7 +41,10 @@ const Item = ({ title = "", subTitle="",  value = "", checked, color, onChange }
         </div>
 
         <div className="flex flex-1 items-center justify-end p-2">
-          <FaChevronRight size={14} className="mr-8"/>
+          <FaChevronRight
+            size={14}
+            className={clsx(show ? "mr-0" : "mr-8")}
+          />
         </div>
       </div>
     </div>

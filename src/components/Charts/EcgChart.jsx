@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import clsx from "clsx";
 import Plotly from "plotly.js-dist-min";
 import Slider from "react-rangeslider";
 
@@ -23,12 +24,14 @@ const EcgChart = () => {
   const intervalId = useRef();
   const liveGraph = useSelector((state) => state.ecg.liveGraph);
   const store = useSelector((state) => state.ecg);
+  const show = useSelector((state) => state.episodeData.selectedChartData.show);
+  const { ticktext, tickvals } = store;
+
   const [play, setPlay] = useState(false);
   const [sliderValue, setSliderValue] = useState(80);
   const [zoomValue, setZoomValue] = useState(0);
-
-  const { ticktext, tickvals } = store;
   const [showDetections, setDetections] = useState(false);
+
   const liveDetections = useRef([]);
 
   const [data, setData] = useState([
@@ -152,6 +155,32 @@ const EcgChart = () => {
 
   const handlePlay = () => setPlay(!play);
 
+  const handleZoomChange = (newValue) => {
+    if (newValue === zoomValue) return;
+
+    const isZoomIn = newValue > zoomValue;
+    const totalTimes = Math.abs(newValue - zoomValue);
+
+    for (let times = 0; times < totalTimes; times++) {
+      if (isZoomIn) handleZoomIn();
+      else handleZoomOut();
+    }
+  };
+
+  const handleZoomIn = () => {
+    setZoomValue(zoomValue + 1);
+
+    plotRef.current.querySelector('a[data-attr="zoom"][data-val="in"]').click();
+  };
+
+  const handleZoomOut = () => {
+    setZoomValue(zoomValue - 1);
+
+    plotRef.current
+      .querySelector('a[data-attr="zoom"][data-val="out"]')
+      .click();
+  };
+
   return (
     <div className={"w-full overflow-hidden"}>
       <div className="flex flex-row text-xs pb-1">
@@ -159,14 +188,29 @@ const EcgChart = () => {
           Start: 07/08/2022 10:40 PM
           <BsPencil className={"mx-2"} />
         </div>
-        <div className="flex items-center ml-[2.5rem]">
+        <div
+          className={clsx(
+            "flex items-center",
+            show ? "ml-[1rem]" : "ml-[2.5rem]"
+          )}
+        >
           End: 07/09/2022 12:40 PM
           <BsPencil className={"mx-2"} />
         </div>
-        <div className="flex items-center ml-[2.5rem]">
+        <div
+          className={clsx(
+            "flex items-center",
+            show ? "ml-[1rem]" : "ml-[2.5rem]"
+          )}
+        >
           Total Monitoring Time: 20h 52min
         </div>
-        <div className="flex items-center ml-[2.5rem]">
+        <div
+          className={clsx(
+            "flex items-center",
+            show ? "ml-[1rem]" : "ml-[2.5rem]"
+          )}
+        >
           Total Time Analyzed: 20h 52min
         </div>
       </div>
@@ -184,7 +228,12 @@ const EcgChart = () => {
             Max HR: {Math.round(liveGraph.hr.max)} pbm
           </div>
           <div className="flex items-center">
-            <input type='checkbox' checked={showDetections} onChange={() => setDetections(!showDetections)} className='custom-checkbox mr-1'/>
+            <input
+              type="checkbox"
+              checked={showDetections}
+              onChange={() => setDetections(!showDetections)}
+              className="custom-checkbox mr-1"
+            />
             Interpretation
           </div>
           <div className="flex items-center"> Atrial Fibrilation/Flutter</div>
@@ -225,9 +274,9 @@ const EcgChart = () => {
           <div className="flex-none items-center w-36">
             <ZoomSlider
               value={zoomValue}
-              onChange={(value) => {
-                setZoomValue(value);
-              }}
+              onZoomIn={handleZoomIn}
+              onZoomOut={handleZoomOut}
+              onChangeValue={handleZoomChange}
             />
           </div>
         </div>

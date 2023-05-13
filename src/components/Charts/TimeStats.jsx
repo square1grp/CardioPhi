@@ -19,6 +19,8 @@ const TimeStats = () => {
 
   const { predictionWidget, showTcNotification } = useSelector((state) => state.ecg);
 
+  const show = useSelector((state) => state.episodeData.selectedChartData.show);
+
   const Spacer = (props) => {
     const { first, last } = {
       first: false,
@@ -38,7 +40,7 @@ const TimeStats = () => {
   };
 
   return (
-    <div className={'w-full h-[32vh] bg-mainPrimary px-2 py-1 timestats mt-1'}>
+    <div className={clsx('w-full bg-mainPrimary px-2 py-1 timestats mt-1', show ? "h-[31vh]" : "h-[32vh]")}>
       <div className='relative'>
         <Tabs defaultActiveKey="today" transition={true} className="mb-1">
           <Tab eventKey="today" title="Today">

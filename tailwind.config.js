@@ -5,11 +5,11 @@ module.exports = {
     extend: {
       colors: {
         main: "#F0F2F4",
-        "main-dark": "#D9D9D9",
 
         mainPrimary: "#066A94",
         borderPrimary: "#D9D9D9",
-        drawerText: "rgba(0,0,0,0.6)",
+        drawerText: "rgba(0,0,0, 0.6)",
+        drawerTextDark: "rgba(0,0,0, 0.87)",
       },
     },
   },

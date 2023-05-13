@@ -187,3 +187,7 @@ input[type=checkbox] {
 .custom-checkbox-alert {
   color: rgb(74, 80, 96);
 }
+
+.capitalize-first-letter::first-letter {
+  text-transform: capitalize;
+}
