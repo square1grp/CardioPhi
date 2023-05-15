@@ -163,6 +163,7 @@ const HeartRateChart = () => {
     );
   }, [avBlockChart, AfibChart1]);
 
+  console.log('heartRateStore?.beatdata: ', heartRateStore?.beatdata);
   const getYData = useCallback(() => {
     const yData = [];
     if (!heartRateStore?.beatdata?.length) return yData;
@@ -184,12 +185,14 @@ const HeartRateChart = () => {
   }, [heartRateStore?.beatdata]);
 
   useEffect(() => {
+    const yData = getYData();
+    console.log('yData: ', yData);
     Plotly.newPlot(
       heartPlotRef.current,
       [
         {
           // z: heartRateStore.beatdata.map((v, i) => v.filter(every10th)),
-          y: getYData(),
+          y: yData,
           showscale: false,
           mode: "makers",
           type: "scatter",
