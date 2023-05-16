@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import {
-  AccountCircle as AccountCircleIcon,
+  AccountCircleOutlined as AccountCircleOutlinedIcon,
   Settings as SettingsIcon,
   Videocam as VideocamIcon,
   KeyboardDoubleArrowRight as KeyboardDoubleArrowRightIcon,
@@ -80,7 +80,7 @@ export const Header = () => {
                 <Menu.Button className="bg-white rounded-full flex focus:outline-none">
                   <span className="sr-only">Open user menu</span>
 
-                  <AccountCircleIcon className="h-6 w-6 rounded-full" />
+                  <AccountCircleOutlinedIcon className="h-6 w-6 rounded-full" />
                 </Menu.Button>
               </div>
               <Transition

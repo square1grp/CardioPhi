@@ -43,7 +43,7 @@ const TimeStats = () => {
     <div className={clsx('w-full bg-mainPrimary px-2 py-1 timestats mt-1', show ? "h-[31vh]" : "h-[32vh]")}>
       <div className='relative'>
         <Tabs defaultActiveKey="today" transition={true} className="mb-1">
-          <Tab eventKey="today" title="Today">
+          <Tab eventKey="today" title="Today" tabClassName="today">
             <table className="text-white">
               <thead>
                 <tr>
@@ -167,7 +167,7 @@ const TimeStats = () => {
               </tbody>
             </table>
           </Tab>
-          <Tab eventKey="hourly" title="Hourly">
+          <Tab eventKey="hourly" title="Hourly" tabClassName="hourly">
             <table className="text-white">
               <thead>
                 <tr>
@@ -391,7 +391,7 @@ const TimeStats = () => {
               </tbody>
             </table>
           </Tab>
-          <Tab eventKey="daily" title="Daily">
+          <Tab eventKey="daily" title="Daily" tabClassName="daily">
           <table className="text-white">
               <thead>
                 <tr>

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import Plotly from "plotly.js-dist-min";
-import Slider from "react-rangeslider";
+// import Slider from "react-rangeslider";
 
 import { BsPencil, BsPause, BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
@@ -26,9 +26,9 @@ const EcgChart = () => {
   const store = useSelector((state) => state.ecg);
   const show = useSelector((state) => state.episodeData.selectedChartData.show);
   const { ticktext, tickvals } = store;
-
+  
   const [play, setPlay] = useState(false);
-  const [sliderValue, setSliderValue] = useState(80);
+  // const [sliderValue, setSliderValue] = useState(80);
   const [zoomValue, setZoomValue] = useState(0);
   const [showDetections, setDetections] = useState(false);
 
@@ -178,35 +178,20 @@ const EcgChart = () => {
           Start: 07/08/2022 10:40 PM
           <BsPencil className={"mx-2"} />
         </div>
-        <div
-          className={clsx(
-            "flex items-center",
-            show ? "ml-[1rem]" : "ml-[2.5rem]"
-          )}
-        >
+        <div className={clsx("flex items-center", show ? "ml-[1rem]" : "ml-[2.5rem]")}>
           End: 07/09/2022 12:40 PM
           <BsPencil className={"mx-2"} />
         </div>
-        <div
-          className={clsx(
-            "flex items-center",
-            show ? "ml-[1rem]" : "ml-[2.5rem]"
-          )}
-        >
+        <div className={clsx("flex items-center", show ? "ml-[1rem]" : "ml-[2.5rem]")}>
           Total Monitoring Time: 20h 52min
         </div>
-        <div
-          className={clsx(
-            "flex items-center",
-            show ? "ml-[1rem]" : "ml-[2.5rem]"
-          )}
-        >
+        <div className={clsx("flex items-center", show ? "ml-[1rem]" : "ml-[2.5rem]")}>
           Total Time Analyzed: 20h 52min
         </div>
       </div>
 
-      <div className="flex-1 bg-mainPrimary">
-        <div className="flex justify-between px-3 text-white text-sm">
+      <div className="flex-1">
+        <div className="flex justify-between px-3 bg-mainPrimary text-white text-sm">
           <div className="flex items-center">
             ECG <BsPause className={"text-xl"} />
           </div>
@@ -218,12 +203,7 @@ const EcgChart = () => {
             Max HR: {Math.round(liveGraph.hr.max)} pbm
           </div>
           <div className="flex items-center">
-            <input
-              type="checkbox"
-              checked={showDetections}
-              onChange={() => setDetections(!showDetections)}
-              className="custom-checkbox mr-1"
-            />
+            <input type='checkbox' checked={showDetections} onChange={() => setDetections(!showDetections)} className='custom-checkbox mr-1'/>
             Interpretation
           </div>
           <div className="flex items-center"> Atrial Fibrilation/Flutter</div>
@@ -236,10 +216,10 @@ const EcgChart = () => {
         <div
           id="ecgChart"
           ref={plotRef}
-          className={"w-full h-[calc(18vh-10px)] outline-1 outline-black"}
+          className={"w-full h-[18vh] outline outline-1 outline-borderPrimary"}
         />
 
-        <div className="slider progress-slider">
+        {/* <div className="slider progress-slider">
           <Slider
             min={0}
             max={100}
@@ -249,9 +229,9 @@ const EcgChart = () => {
             }}
             style={{ height: "100%" }}
           />
-        </div>
+        </div> */}
 
-        <div className="flex justify-between items-center bg-white">
+        <div className="flex justify-between items-center bg-white mt-[1px]">
           <button
             className={
               "inline-flex items-center justify-center text-2xl text-black"
@@ -262,7 +242,10 @@ const EcgChart = () => {
           </button>
 
           <div className="flex-none items-center w-36">
-            <ZoomSlider value={zoomValue} onChange={handleZoomChange} />
+            <ZoomSlider
+              value={zoomValue}
+              onChange={handleZoomChange}
+            />
           </div>
         </div>
       </div>

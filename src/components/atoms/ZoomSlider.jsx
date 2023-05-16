@@ -1,52 +1,30 @@
-import Slider from "react-rangeslider";
-import "react-rangeslider/lib/index.css";
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
 
-import { AiOutlineMinusCircle } from "react-icons/ai";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
+import { AiOutlineMinusCircle } from 'react-icons/ai';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
-const ZoomSlider = ({
-  value: initValue,
-  onChange: handleChange = () => null,
-}) => {
-  const [value, setValue] = useState(initValue);
-
-  useEffect(() => {
-    if (Math.abs(value) > 5) return;
-
-    handleChange(value);
-  }, [value]);
-
+const ZoomSlider = ({value, onChange}) => {
   return (
-    <div className="w-full flex flex-row items-center justify-center">
-      <div className="inline-flex items-center mr-[-1px]">
-        <IconButton
-          sx={{ padding: 0 }}
-          onClick={() => setValue(Math.max(value - 1, -5))}
-        >
-          <AiOutlineMinusCircle size={16} />
-        </IconButton>
+    <div className='w-full flex flex-row items-center justify-center'>
+      <div className='flex-none mr-[-1px]'>
+        <AiOutlineMinusCircle size={16} color='#AAAAAA'/>
       </div>
-      <div className="w-full flex-1 slider zoom-slider">
+      <div className='w-full flex-1 slider zoom-slider'>
         <Slider
           min={-5}
           max={5}
           value={value}
-          style={{ height: "100%" }}
-          onChange={setValue}
+          onChange={(value) => {onChange(value)}}
+          tooltip={false}
+          style={{height:"100%"}}
         />
       </div>
-      <div className="inline-flex items-center ml-[-1px]">
-        <IconButton
-          sx={{ padding: 0 }}
-          onClick={() => setValue(Math.min(value + 1, 5))}
-        >
-          <AiOutlinePlusCircle size={16} />
-        </IconButton>
+      <div className='flex-none ml-[-1px]'>
+        <AiOutlinePlusCircle size={16} color='#AAAAAA'/>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ZoomSlider;
+export default ZoomSlider

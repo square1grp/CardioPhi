@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsBell } from "react-icons/bs";
 import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
 import Plotly from "plotly.js-dist-min";
-import clsx from "clsx";
 
-import HrNotification from "./HrNotification";
 import ZoomSlider from "components/atoms/ZoomSlider";
 import HeartRateToolbarItem from "../atoms/HeartRateToolbarItem";
+
+import HrNotification from "./HrNotification";
+import EpisodeChart from "./EpisodeChart";
 
 import {
   setSelectedChartData,
@@ -163,7 +164,6 @@ const HeartRateChart = () => {
     );
   }, [avBlockChart, AfibChart1]);
 
-  console.log('heartRateStore?.beatdata: ', heartRateStore?.beatdata);
   const getYData = useCallback(() => {
     const yData = [];
     if (!heartRateStore?.beatdata?.length) return yData;
@@ -186,24 +186,16 @@ const HeartRateChart = () => {
 
   useEffect(() => {
     const yData = getYData();
-    console.log('yData: ', yData);
+
     Plotly.newPlot(
       heartPlotRef.current,
       [
         {
-          // z: heartRateStore.beatdata.map((v, i) => v.filter(every10th)),
           y: yData,
           showscale: false,
           mode: "makers",
           type: "scatter",
-          colorscale: [
-            ["0.0", "#fff"],
-            ["0.1", "#fff"],
-
-            ["0.15", "#fff"],
-            ["0.3", "#020202"],
-            ["1.0", "#020202"],
-          ],
+          line: { color: "black" },
         },
       ],
       heartRateLayout,
@@ -214,6 +206,32 @@ const HeartRateChart = () => {
         responsive: true,
       }
     );
+
+    // Plotly.newPlot(
+    //   heartPlotRef.current,
+    //   [
+    //     {
+    //       z: heartRateStore.beatdata.map((v, i) => v.filter(every10th)),
+    //       showscale: false,
+    //       type: "heatmap",
+    //       colorscale: [
+    //         ["0.0", "#fff"],
+    //         ["0.1", "#fff"],
+
+    //         ["0.15", "#fff"],
+    //         ["0.3", "#020202"],
+    //         ["1.0", "#020202"],
+    //       ],
+    //     },
+    //   ],
+    //   heartRateLayout,
+    //   {
+    //     displaylogo: false,
+    //     displaymodebar: true,
+    //     modeBarButtonsToRemove: ["autoscale", "pan", "toimage"],
+    //     responsive: true,
+    //   }
+    // );
   }, [heartRateStore]);
 
   const hrshapes = [
@@ -356,13 +374,8 @@ const HeartRateChart = () => {
   };
 
   return (
-    <div className={"flex w-full"}>
-      <div
-        className={clsx(
-          selectedChartData.show ? "basis-1/2" : "w-full",
-          "flex-1 h-full"
-        )}
-      >
+    <div className={"w-full overflow-hidden"}>
+      <div className={"w-full flex-1 h-full"}>
         <div className="relative flex justify-between bg-white border-[1px] border-borderPrimary">
           <div className="w-full grid grid-cols-6">
             <HeartRateToolbarItem
@@ -493,6 +506,7 @@ const HeartRateChart = () => {
         </div>
       </div>
       {showHrNotification && <HrNotification />}
+      {selectedChartData.show && <EpisodeChart />}
     </div>
   );
 };

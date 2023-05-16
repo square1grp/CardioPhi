@@ -1,33 +1,25 @@
 import { useSelector } from "react-redux";
-import {
-  Header,
-  EcgChart,
-  HeartRateChart,
-  TimeStats,
-  EpisodeChart,
-} from "components";
-import { styled } from "@mui/material/styles";
-
-import Drawer from "@mui/material/Drawer";
+import { Header, EcgChart, HeartRateChart, TimeStats } from "components";
+import { styled } from '@mui/material/styles';
 
 const drawerWidth = 470;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    transition: theme.transitions.create("margin", {
+    transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginRight: -drawerWidth,
     ...(open && {
-      transition: theme.transitions.create("margin", {
+      transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
       marginRight: 0,
     }),
-  })
+  }),
 );
 
 const ECGAnalysis = () => {
@@ -37,7 +29,7 @@ const ECGAnalysis = () => {
 
   return (
     <div className={"h-screen flex"}>
-      <Main open={selectedChartData.show}>
+      <Main open={true}>
         <div className="flex-1 relative">
           <Header />
 
@@ -48,11 +40,11 @@ const ECGAnalysis = () => {
           </div>
         </div>
       </Main>
-      <Drawer
+      {/* <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          "& .MuiDrawer-paper": {
+          '& .MuiDrawer-paper': {
             width: drawerWidth,
           },
         }}
@@ -60,8 +52,10 @@ const ECGAnalysis = () => {
         anchor="right"
         open={selectedChartData.show}
       >
-        {selectedChartData.show && <EpisodeChart />}
-      </Drawer>
+        {selectedChartData.show && 
+          <EpisodeChartForDrawer />
+        }
+      </Drawer> */}
     </div>
   );
 };
