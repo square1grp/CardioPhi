@@ -8,7 +8,6 @@ import ZoomSlider from "components/atoms/ZoomSlider";
 import HeartRateToolbarItem from "../atoms/HeartRateToolbarItem";
 
 import HrNotification from "./HrNotification";
-import EpisodeChart from "./EpisodeChart";
 
 import {
   setSelectedChartData,
@@ -185,20 +184,123 @@ const HeartRateChart = () => {
   }, [heartRateStore?.beatdata]);
 
   useEffect(() => {
-    const yData = getYData();
+    const beatData = heartRateStore.beatdata_scatter;
+    const len = beatData.x?.length;
+    const lastX = len ? beatData.x[len - 1] : 0;
+    const date = new Date(beatData.start_date + " " + beatData.start_time);
+
+    
+    // const options = {
+    //   year: 'numeric',
+    //   month: '2-digit',
+    //   day: '2-digit',
+    //   hour: 'numeric',
+    //   minute: 'numeric',
+    //   second: 'numeric',
+    //   hour12: false
+    // };
+    
+    // const localeDateTimeString = date.toLocaleTimeString(undefined, options);
+
+    // let xArr = [];
+    // if(len) {
+    //   for(let i=0 ; i<len ; i+=1) {
+    //     date.setSeconds(date.getSeconds() + 10);
+    //     xArr.push(`${date.getFullYear()}-${(date.getMonth() + 1)
+    //       .toString()
+    //       .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
+    //       .getHours()
+    //       .toString()
+    //       .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date
+    //       .getSeconds()
+    //       .toString()
+    //       .padStart(2, "0")}`)
+    //   }
+    // }
+
+
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    };
+    
+    const localeDateString = date.toLocaleDateString();
+    const localeTimeString = date.toLocaleTimeString(undefined, options);
+    let hour = date.getHours();
+    let day = 1;
+    const diffSecondsCount = parseInt((date.getMinutes() * 60 + date.getSeconds()) / 10);
+
+    let tickVals = [0], tickTexts=[localeTimeString];
+    let j = 1;
+    if(len) {
+      for(let i=(720-diffSecondsCount) ; i<len ; i+=720) {
+        tickVals.push(beatData.x[i]);
+        hour = hour + j * 2;
+        if(hour === 24) {
+          day++;
+          tickTexts.push(`Day ${day.toString()}`);
+          hour = 0;
+        }
+        else {
+          tickTexts.push(`${hour}h 00`);
+        }
+      }
+    }
+    
+
+    const heartRateLayout_scatter = {
+      xaxis: {
+        showline: false,
+        showgrid: false,
+        range: [ 0, lastX ],
+        showticklabels: true,
+        ticklabelposition: "top",
+        tickmode: "array",
+        tickvals: tickVals,
+        ticktext: tickTexts,
+        tickfont: {
+          family:  'Sk-Modernist',
+          weight: 700
+        },
+      },
+      yaxis: {
+        showline: true,
+        showgrid: true,
+        range: [0, 300],
+        tickwidth: 1,
+        tickcolor: 'black',
+        showticklabels: true,
+        tickmode: "array",
+        tickvals: [50, 100, 150, 200, 250, 300],
+        ticktext: [50, 100, 150, 200, 250, 300],
+  
+        title: {
+          text: "HR<br>(bpm)",
+        },
+      },
+      margin: {
+        t: 10,
+        b: 40,
+        r: 0,
+      },
+    };
 
     Plotly.newPlot(
       heartPlotRef.current,
       [
         {
-          y: yData,
-          showscale: false,
-          mode: "makers",
-          type: "scatter",
-          line: { color: "black" },
+          x: heartRateStore.beatdata_scatter.x,
+          y: heartRateStore.beatdata_scatter.y,
+          mode: 'markers',
+          type: 'scatter',
+          marker: {
+            size: 2,
+            color: 'black'
+          }
         },
       ],
-      heartRateLayout,
+      heartRateLayout_scatter,
       {
         displaylogo: false,
         displaymodebar: true,
@@ -207,31 +309,6 @@ const HeartRateChart = () => {
       }
     );
 
-    // Plotly.newPlot(
-    //   heartPlotRef.current,
-    //   [
-    //     {
-    //       z: heartRateStore.beatdata.map((v, i) => v.filter(every10th)),
-    //       showscale: false,
-    //       type: "heatmap",
-    //       colorscale: [
-    //         ["0.0", "#fff"],
-    //         ["0.1", "#fff"],
-
-    //         ["0.15", "#fff"],
-    //         ["0.3", "#020202"],
-    //         ["1.0", "#020202"],
-    //       ],
-    //     },
-    //   ],
-    //   heartRateLayout,
-    //   {
-    //     displaylogo: false,
-    //     displaymodebar: true,
-    //     modeBarButtonsToRemove: ["autoscale", "pan", "toimage"],
-    //     responsive: true,
-    //   }
-    // );
   }, [heartRateStore]);
 
   const hrshapes = [
@@ -497,16 +574,16 @@ const HeartRateChart = () => {
         <div
           id="heartRateChart"
           ref={heartPlotRef}
-          className={"w-full h-[18vh] outline outline-1 outline-borderPrimary"}
+          className={"w-full h-[23vh] outline outline-1 outline-borderPrimary"}
         />
-        <div className="flex justify-end items-cente">
+        <div className="flex justify-end items-center">
           <div className="items-center w-36">
-            <ZoomSlider value={zoomValue} onChange={handleZoomChange} />
+            <ZoomSlider value={zoomValue} min={-3} max={3} onChange={handleZoomChange} />
           </div>
         </div>
       </div>
       {showHrNotification && <HrNotification />}
-      {selectedChartData.show && <EpisodeChart />}
+      {/* {selectedChartData.show && <EpisodeChart />} */}
     </div>
   );
 };

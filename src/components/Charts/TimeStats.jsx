@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Tab, Tabs} from 'react-bootstrap';
 import clsx from "clsx";
@@ -16,10 +16,9 @@ import { updateShowTcNotification } from 'store/ecgSlice';
 const TimeStats = () => {
 
   const dispatch = useDispatch();
-
+  const [activeKey, setActiveKey] = useState('today');
+  
   const { predictionWidget, showTcNotification } = useSelector((state) => state.ecg);
-
-  const show = useSelector((state) => state.episodeData.selectedChartData.show);
 
   const Spacer = (props) => {
     const { first, last } = {
@@ -40,15 +39,15 @@ const TimeStats = () => {
   };
 
   return (
-    <div className={clsx('w-full bg-mainPrimary px-2 py-1 timestats mt-1', show ? "h-[31vh]" : "h-[32vh]")}>
+    <div className={clsx('w-full bg-mainPrimary px-2 py-1 timestats mt-1 h-[29vh] overflow-x-auto')}>
       <div className='relative'>
-        <Tabs defaultActiveKey="today" transition={true} className="mb-1">
-          <Tab eventKey="today" title="Today" tabClassName="today">
+        <Tabs defaultActiveKey="today" transition={true} className="mb-1" onSelect={(key) => setActiveKey(key)}>
+          <Tab eventKey="today" title="Today" tabClassName={clsx(activeKey === 'daily' || activeKey === 'hourly' ? "today-border" : "")}>
             <table className="text-white">
               <thead>
                 <tr>
                   <th className="text-left w-[140px]"></th>
-                  <th className="time-title w-[280px]">Mornng</th>
+                  <th className="time-title time-title-first w-[300px]">Morning</th>
                   <th />
                   <th className="time-title w-[200px]">Afternoon</th>
                   <th />
@@ -62,18 +61,18 @@ const TimeStats = () => {
                 <tr>
                   <td className='time-first'>AFib/Flutter</td>
                   <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
+                    <div className="mb-1">
+                      <div className="flex items-center">
                         <span className="time-second">Burden:</span>
-                        <span className="ml-auto time-third">59.62%</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex items-center">
                         <span className="time-second">Longest Duration:</span>
-                        <span className="ml-auto time-third">59s</span>
+                        <span className="time-third">59s</span>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex items-center">
                         <span className="time-second">Max HR:</span>
-                        <span className="ml-auto time-third">154bpm</span>
+                        <span className="time-third">154bpm</span>
                       </div>
                     </div>
                   </td>
@@ -100,14 +99,14 @@ const TimeStats = () => {
                 <tr>
                   <td className='time-first'>VT</td>
                   <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
+                    <div className="mb-1">
+                      <div className="flex items-center">
                         <span className="time-second">Episodes:</span>
-                        <span className="ml-auto time-third">59.62%</span>
+                        <span className="time-third">59.62%</span>
                       </div>
                       <div className="flex flex-row items-center">
                         <span className="time-second">Longest Duration:</span>
-                        <span className="ml-auto time-third">57s</span>
+                        <span className="time-third">57s</span>
                       </div>
                     </div>
                   </td>
@@ -134,14 +133,14 @@ const TimeStats = () => {
                 <tr>
                   <td className='time-first'>SVT</td>
                   <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
+                    <div className="mb-1">
+                      <div className="flex items-center">
                         <span className="time-second">Episodes:</span>
-                        <span className="ml-auto time-third">59.62%</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex items-center">
                         <span className="time-second">Longest Duration:</span>
-                        <span className="ml-auto time-third">57s</span>
+                        <span className="time-third">57s</span>
                       </div>
                     </div>
                   </td>
@@ -167,47 +166,47 @@ const TimeStats = () => {
               </tbody>
             </table>
           </Tab>
-          <Tab eventKey="hourly" title="Hourly" tabClassName="hourly">
-            <table className="text-white">
+          <Tab eventKey="hourly" title="Hourly">
+            <table className="text-white w-full">
               <thead>
                 <tr>
                   <th className="text-left w-[140px]"></th>
-                  <th className="time-title w-[230px]">10AM</th>
+                  <th className="time-title time-title-first w-[270px]">10AM</th>
                   <th />
-                  <th className="time-title w-[130px]">11AM</th>
+                  <th className="time-title">11AM</th>
                   <th />
-                  <th className="time-title w-[130px]">12AM</th>
+                  <th className="time-title">12AM</th>
                   <th />
-                  <th className="time-title w-[130px]">1PM</th>
+                  <th className="time-title">1PM</th>
                   <th />
-                  <th className="time-title w-[130px]">2PM</th>
+                  <th className="time-title">2PM</th>
                   <th />
-                  <th className="time-title w-[130px]">3PM</th>
+                  <th className="time-title">3PM</th>
                   <th />
-                  <th className="time-title w-[130px]">4PM</th>
+                  <th className="time-title">4PM</th>
                   <th />
-                  <th className="time-title w-[130px]">5PM</th>
+                  <th className="time-title">5PM</th>
                   <th />
-                  <th className="time-title w-[130px]">6PM</th>
+                  <th className="time-title">6PM</th>
                 </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <td className='time-first'>AFib/Flutter</td>
-                  <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Burden:</span>
-                        <span className="basis-1/3 time-third">59.62%</span>
+                  <td className='w-[270px]'>
+                    <div className="mb-1">
+                      <div className="flex items-center">
+                        <span className="time-second">Burden:</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Longest Duration:</span>
-                        <span className="basis-1/3 time-third">59s</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="time-third">59s</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Max HR:</span>
-                        <span className="basis-1/3 time-third">154bpm</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Max HR:</span>
+                        <span className="time-third">154bpm</span>
                       </div>
                     </div>
                   </td>
@@ -263,15 +262,15 @@ const TimeStats = () => {
 
                 <tr>
                   <td className='time-first'>VT</td>
-                  <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Episodes:</span>
-                        <span className="basis-1/3 time-third">59.62%</span>
+                  <td className='w-[270px]'>
+                    <div className="mb-1">
+                      <div className="flex items-center">
+                        <span className="time-second">Episodes:</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Longest Duration:</span>
-                        <span className="basis-1/3 time-third">57s</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="time-third">57s</span>
                       </div>
                     </div>
                   </td>
@@ -327,15 +326,15 @@ const TimeStats = () => {
 
                 <tr>
                   <td className='time-first'>SVT</td>
-                  <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Episodes:</span>
-                        <span className="basis-1/3 time-third">59.62%</span>
+                  <td className='w-[270px]'>
+                    <div className="mb-1">
+                      <div className="flex items-center">
+                        <span className="time-second">Episodes:</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Longest Duration:</span>
-                        <span className="basis-1/3  time-third">57s</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="time-third">57s</span>
                       </div>
                     </div>
                   </td>
@@ -391,47 +390,47 @@ const TimeStats = () => {
               </tbody>
             </table>
           </Tab>
-          <Tab eventKey="daily" title="Daily" tabClassName="daily">
-          <table className="text-white">
+          <Tab eventKey="daily" title="Daily" tabClassName={clsx(activeKey === 'today' || activeKey === 'hourly' ? "daily-border" : "")}>
+          <table className="text-white w-full">
               <thead>
                 <tr>
                   <th className="text-left w-[140px]"></th>
-                  <th className="time-title w-[230px]">10AM</th>
+                  <th className="time-title time-title-first w-[270px]">Mon</th>
                   <th />
-                  <th className="time-title w-[130px]">11AM</th>
+                  <th className="time-title">Tues</th>
                   <th />
-                  <th className="time-title w-[130px]">12AM</th>
+                  <th className="time-title">Weds</th>
                   <th />
-                  <th className="time-title w-[130px]">1PM</th>
+                  <th className="time-title">Thurs</th>
                   <th />
-                  <th className="time-title w-[130px]">2PM</th>
+                  <th className="time-title">Fri</th>
                   <th />
-                  <th className="time-title w-[130px]">3PM</th>
+                  <th className="time-title">Sat</th>
                   <th />
-                  <th className="time-title w-[130px]">4PM</th>
+                  <th className="time-title">Sun</th>
                   <th />
-                  <th className="time-title w-[130px]">5PM</th>
+                  <th className="time-title">Mon</th>
                   <th />
-                  <th className="time-title w-[130px]">6PM</th>
+                  <th className="time-title">Tues</th>
                 </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <td className='time-first'>AFib/Flutter</td>
-                  <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Burden:</span>
-                        <span className="basis-1/3 time-third">59.62%</span>
+                  <td className='w-[270px]'>
+                    <div className="mb-1">
+                      <div className="flex items-center">
+                        <span className="time-second">Burden:</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Longest Duration:</span>
-                        <span className="basis-1/3 time-third">59s</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="time-third">59s</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Max HR:</span>
-                        <span className="basis-1/3 time-third">154bpm</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Max HR:</span>
+                        <span className="time-third">154bpm</span>
                       </div>
                     </div>
                   </td>
@@ -487,15 +486,15 @@ const TimeStats = () => {
 
                 <tr>
                   <td className='time-first'>VT</td>
-                  <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Episodes:</span>
-                        <span className="basis-1/3 time-third">59.62%</span>
+                  <td className='w-[270px]'>
+                    <div className="mb-1">
+                      <div className="flex items-center">
+                        <span className="time-second">Episodes:</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Longest Duration:</span>
-                        <span className="basis-1/3 time-third">57s</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="time-third">57s</span>
                       </div>
                     </div>
                   </td>
@@ -551,15 +550,15 @@ const TimeStats = () => {
 
                 <tr>
                   <td className='time-first'>SVT</td>
-                  <td>
-                    <div className="flex-1 mb-1">
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Episodes:</span>
-                        <span className="basis-1/3 time-third">59.62%</span>
+                  <td className='w-[270px]'>
+                    <div className="mb-1">
+                      <div className="flex items-center">
+                        <span className="time-second">Episodes:</span>
+                        <span className="time-third">59.62%</span>
                       </div>
-                      <div className="flex flex-row items-center">
-                        <span className="basis-2/3 time-second">Longest Duration:</span>
-                        <span className="basis-1/3  time-third">57s</span>
+                      <div className="flex items-center">
+                        <span className="time-second">Longest Duration:</span>
+                        <span className="time-third">57s</span>
                       </div>
                     </div>
                   </td>

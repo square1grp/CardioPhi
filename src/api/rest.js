@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 import heart_rate_chart from './heart_rate_chart.json';
+import heart_rate_chart_scatter from './heart_rate_chart_scatter.json';
 
 import ecg_chart from './ecg_chart.json';
 import detections from './detections.json';
@@ -151,6 +152,7 @@ export async function ecgSummary() {
 
     },
     heart_rate_chart,
+    heart_rate_chart_scatter,
     prediction_widget: {
       daily: {
         AFIB: {

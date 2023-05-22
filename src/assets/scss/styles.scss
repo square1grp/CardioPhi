@@ -52,8 +52,8 @@ body {
     }
 
     .rangeslider__handle {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
     }
   }
 }
@@ -75,12 +75,19 @@ $tab-active-color: white;
   --bs-nav-tabs-border-width: 0;
 
   .nav-item {
-    padding: 4px;
+    padding: 6px 0px;
     background-color: rgba(240,240,240, 1);
     
     button {
-      padding: 0 18px;
+      padding: 0px 18px;
     }
+  }
+
+  .nav-item:first-child {
+    padding-left: 4px;
+  }
+  .nav-item:last-child {
+    padding-right: 4px;
   }
 
   .nav-link {
@@ -88,7 +95,7 @@ $tab-active-color: white;
     background-color: rgba(240,240,240, 1);
     border-radius: 0;
     border: none;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 500;
 
     &:hover {
@@ -105,54 +112,59 @@ $tab-active-color: white;
     }
   }
 
-  .today.active {
-    border-right: 2px solid #aaaaaa;
+  
+  .today-border {
+    border-right: 1px solid #888888 !important;
   }
 
-  .hourly.active {
-    border-left: 2px solid #aaaaaa;
-    border-right: 2px solid #aaaaaa;
-  }
+  // .hourly-border {
+  //   border-left: 1px solid #888888 !important;
+  //   border-right: 1px solid #888888 !important;
+  // }
 
-  .daily.active {
-    border-left: 2px solid #aaaaaa;
+  .daily-border {
+    border-left: 1px solid #888888 !important;
   }
 }
 
 table {
   .time-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 500;
-    line-height: 1.5rem;
-    letter-spacing: 0.0125em;
+    line-height: 1.75rem;
+    letter-spacing: 0.1em;
     display: flex;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .time-title-first {
+    padding-left: 100px;
   }
 
   .time-first {
-    text-align: center;
-    vertical-align: top;
-    font-size: 0.8125rem;
-    line-height: 1rem;
+    vertical-align: middle;
+    font-size: 1rem;
+    line-height: 1.25rem;
   }
 
   .time-second {
+    width: 170px;
     align-self: center;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.25rem;
+    letter-spacing: 0.1em;
     color: rgba(255, 255, 255, 0.7);
-    width: 50%;
   }
 
   .time-third {
     align-self: center;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    line-height: 1rem;
+    letter-spacing: 0.0125em;
+    line-height: 1.25rem;
     color: white;
-    width: 50%;
   }
 }
 
@@ -210,10 +222,10 @@ input[type=checkbox] {
 }
 
 .custom-checkbox {
-  color: black;
+  color: white;
 
   &:checked {
-    background-color: black;
+    background-color: white;
     background-image: none;
   }
 }

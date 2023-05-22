@@ -1,8 +1,11 @@
 import { useSelector } from "react-redux";
 import { Header, EcgChart, HeartRateChart, TimeStats } from "components";
+import { Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const drawerWidth = 470;
+import EpisodeChartForDrawer from "components/Charts/EpisodeChartForDrawer";
+
+const drawerWidth = 500;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -29,7 +32,7 @@ const ECGAnalysis = () => {
 
   return (
     <div className={"h-screen flex"}>
-      <Main open={true}>
+      <Main open={selectedChartData.show}>
         <div className="flex-1 relative">
           <Header />
 
@@ -40,7 +43,7 @@ const ECGAnalysis = () => {
           </div>
         </div>
       </Main>
-      {/* <Drawer
+      <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -55,7 +58,7 @@ const ECGAnalysis = () => {
         {selectedChartData.show && 
           <EpisodeChartForDrawer />
         }
-      </Drawer> */}
+      </Drawer>
     </div>
   );
 };

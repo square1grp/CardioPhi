@@ -66,13 +66,15 @@ const EcgChart = () => {
       showgrid: true,
       showticklabels: true,
       zeroline: false,
+      tickwidth: 1,
+      tickcolor: 'black',
       gridcolor: "#555",
       title: {
         text: "Millivolts<br>(mV)",
       },
     },
     margin: {
-      b: 25,
+      b: 20,
       t: 0,
       r: 0,
     },
@@ -173,7 +175,7 @@ const EcgChart = () => {
 
   return (
     <div className={"w-full overflow-hidden"}>
-      <div className="flex flex-row text-xs pb-1">
+      <div className="flex flex-row text-sm pb-1">
         <div className="flex items-center">
           Start: 07/08/2022 10:40 PM
           <BsPencil className={"mx-2"} />
@@ -190,8 +192,8 @@ const EcgChart = () => {
         </div>
       </div>
 
-      <div className="flex-1">
-        <div className="flex justify-between px-3 bg-mainPrimary text-white text-sm">
+      <div className="w-full flex-1">
+        <div className="flex justify-between px-3 py-1 bg-mainPrimary text-white text-base">
           <div className="flex items-center">
             ECG <BsPause className={"text-xl"} />
           </div>
@@ -203,7 +205,7 @@ const EcgChart = () => {
             Max HR: {Math.round(liveGraph.hr.max)} pbm
           </div>
           <div className="flex items-center">
-            <input type='checkbox' checked={showDetections} onChange={() => setDetections(!showDetections)} className='custom-checkbox mr-1'/>
+            <input type='checkbox' checked={showDetections} onChange={() => setDetections(!showDetections)} className='custom-checkbox-alert mr-1'/>
             Interpretation
           </div>
           <div className="flex items-center"> Atrial Fibrilation/Flutter</div>
@@ -213,11 +215,13 @@ const EcgChart = () => {
           </div>
         </div>
 
-        <div
-          id="ecgChart"
-          ref={plotRef}
-          className={"w-full h-[18vh] outline outline-1 outline-borderPrimary"}
-        />
+        <div className="w-full flex-1 relative pl-2 outline outline-1 outline-borderPrimary bg-white">
+          <div
+            id="ecgChart"
+            ref={plotRef}
+            className={"w-full h-[19vh]"}
+          />
+        </div>
 
         {/* <div className="slider progress-slider">
           <Slider
@@ -234,7 +238,7 @@ const EcgChart = () => {
         <div className="flex justify-between items-center bg-white mt-[1px]">
           <button
             className={
-              "inline-flex items-center justify-center text-2xl text-black"
+              "inline-flex items-center justify-center text-2xl text-black ml-2"
             }
             onClick={handlePlay}
           >
@@ -244,6 +248,8 @@ const EcgChart = () => {
           <div className="flex-none items-center w-36">
             <ZoomSlider
               value={zoomValue}
+              min={-3}
+              max={3}
               onChange={handleZoomChange}
             />
           </div>
