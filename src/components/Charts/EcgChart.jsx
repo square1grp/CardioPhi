@@ -7,7 +7,7 @@ import Plotly from "plotly.js-dist-min";
 import { BsPencil, BsPause, BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 
-import ZoomSlider from "components/atoms/ZoomSlider";
+import ZoomSlider from "components/Atoms/ZoomSlider";
 import { fetchEcgSummary } from "../../store/asyncThunk";
 
 import "react-rangeslider/lib/index.css";

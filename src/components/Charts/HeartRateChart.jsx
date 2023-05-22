@@ -4,8 +4,8 @@ import { BsBell } from "react-icons/bs";
 import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
 import Plotly from "plotly.js-dist-min";
 
-import ZoomSlider from "components/atoms/ZoomSlider";
-import HeartRateToolbarItem from "../atoms/HeartRateToolbarItem";
+import ZoomSlider from "components/Atoms/ZoomSlider";
+import HeartRateToolbarItem from "../Atoms/HeartRateToolbarItem";
 
 import HrNotification from "./HrNotification";
 

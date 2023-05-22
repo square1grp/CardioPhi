@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { updateShowHrNotification } from 'store/episodeDataSlice';
-import CustomSelect from 'components/atoms/CustomSelect';
-import CustomInput from 'components/atoms/CustomInput';
-import CustomDatePicker from 'components/atoms/CustomDatePicker';
+import CustomSelect from 'components/Atoms/CustomSelect';
+import CustomInput from 'components/Atoms/CustomInput';
+import CustomDatePicker from 'components/Atoms/CustomDatePicker';
 
 import { FaRegBell } from 'react-icons/fa';
 import { CgClose } from 'react-icons/cg';
