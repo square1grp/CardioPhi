@@ -243,7 +243,7 @@ const HeartRateChart = () => {
           hour = 0;
         }
         else {
-          tickTexts.push(`${hour}h 00`);
+          tickTexts.push(`${hour}h:00`);
         }
       }
     }
