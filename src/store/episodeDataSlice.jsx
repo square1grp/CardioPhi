@@ -15,7 +15,7 @@ const episodeData = [
   [{
     x: [],
     y: [],
-    type: 'scatter',
+    type: "scattergl",
     line: {
       color: "black",
     },
@@ -23,7 +23,7 @@ const episodeData = [
   [{
     x: [],
     y: [],
-    type: 'scatter',
+    type: "scattergl",
     line: {
       color: "black",
     },
@@ -31,7 +31,7 @@ const episodeData = [
   [{
     x: [],
     y: [],
-    type: 'scatter',
+    type: "scattergl",
     line: {
       color: "black",
     },
@@ -98,7 +98,7 @@ const afibEpisodesData = [
   [{
     x: [],
     y: [],
-    type: 'scatter',
+    type: "scattergl",
     line: {
       color: 'black',
     },
@@ -106,7 +106,7 @@ const afibEpisodesData = [
   [{
     x: [],
     y: [],
-    type: 'scatter',
+    type: "scattergl",
     line: {
       color: 'black',
     },
@@ -114,7 +114,7 @@ const afibEpisodesData = [
   [{
     x: [],
     y: [],
-    type: 'scatter',
+    type: "scattergl",
     line: {
       color: 'black',
     },

@@ -73,7 +73,7 @@ const HeartRateChart = () => {
         {
           x: [],
           y: [],
-          type: "scatter",
+          type: "scattergl",
           line: {
             color: "black",
           },
@@ -83,7 +83,7 @@ const HeartRateChart = () => {
         {
           x: [],
           y: [],
-          type: "scatter",
+          type: "scattergl",
           line: {
             color: "black",
           },
@@ -93,7 +93,7 @@ const HeartRateChart = () => {
         {
           x: [],
           y: [],
-          type: "scatter",
+          type: "scattergl",
           line: {
             color: "black",
           },
@@ -118,7 +118,7 @@ const HeartRateChart = () => {
         {
           x: [],
           y: [],
-          type: "scatter",
+          type: "scattergl",
           line: {
             color: "black",
           },
@@ -128,7 +128,7 @@ const HeartRateChart = () => {
         {
           x: [],
           y: [],
-          type: "scatter",
+          type: "scattergl",
           line: {
             color: "black",
           },
@@ -138,7 +138,7 @@ const HeartRateChart = () => {
         {
           x: [],
           y: [],
-          type: "scatter",
+          type: "scattergl",
           line: {
             color: "black",
           },
@@ -293,7 +293,7 @@ const HeartRateChart = () => {
           x: heartRateStore.beatdata_scatter.x,
           y: heartRateStore.beatdata_scatter.y,
           mode: 'markers',
-          type: 'scatter',
+          type: "scattergl",
           marker: {
             size: 2,
             color: 'black'
